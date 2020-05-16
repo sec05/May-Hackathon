@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href='https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css'>
+        <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.js"></script>
+        <style>
+            body {
+            background-color: #d6d9dc;
+        }
+
+
+        .logIn {
+            width: 30%;
+            background-color: white;
+            padding: 10px;
+        }
+
+        .login {
+            text-decoration: none;
+            font-size: 20px;
+        }
+
+        .error {
+            background-color: red;
+            color: white;
+            text-align: center;
+            width: 30%;
+            z-index: 10;
+            position: relative;
+            left: -2.22222%;
+        }
+        </style>
+    </head>
+    <body>
+        <center>
+            <div class="logIn" style="height: 20%; " >
+                 <br>
+                <center> 
+
+                    <h3 style="font-size: 250%;">Login</h3>
+
+                    {% with message = get_flashed_messages(with_categories = True) %}
+                    <dl>
+                        {% for category, message in message %}
+                        <dd class="{{category}}"><i class="exclamation icon" style="color:white;"></i>{{message}}</dd>
+                        {% endfor %}
+                    </dl>
+                    {% endwith %}
+                    
+                    <form action="/login" method='POST' class="ui form">
+                        <div class="field">
+                            <label style="float: left;">Username</label>
+                            <input type="text" id="username" name="username" required placeholder="Username">
+                        </div>
+                        <div class="field">
+                            <label style="float: left;">Password</label>
+                            <input type="password" id="password" name="password" required placeholder="Password">
+                        </div>
+                        <button class="ui button submit"
+                            style="background-color: #4f98ca; color: white; float: right; width: 100%; ">Log In</button>
+                    </form> <br> <br> <br>
+                </center>
+                <p>Don't have an account? <a href="/signup">Register here</a></p>
+            </div>
+        </center>
+    </body>
+    </body>
+</html>

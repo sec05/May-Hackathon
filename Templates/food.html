@@ -1,0 +1,285 @@
+{% extends "layout.html"%}
+{%block content%}
+<br />
+<br />
+<br />
+<main role="main">
+    <div class="container marketing">
+
+        <div class='row'>
+            <div class='col-lg-2'>
+                <h1 style="text-align: center;">2000</h1>
+                <h4 style="text-align: center;">Goal</h4>
+            </div>
+            <div class='col-lg-1'>
+                <h1 style="text-align: center;">-</h1>
+            </div>
+            <div class='col-lg-2'>
+                <h1 style="text-align: center;">0</h1>
+                <h4 style="text-align: center;">Food</h4>
+            </div>
+            <div class='col-lg-1'>
+                <h1 style="text-align: center;">+</h1>
+
+            </div>
+            <div class='col-lg-2'>
+                <h1 style="text-align: center;">0</h1>
+                <h4 style="text-align: center;">Exersise</h4>
+            </div>
+            <div class='col-lg-1'>
+                <h1 style="text-align: center;">=</h1>
+
+            </div>
+            <div class='col-lg-2'>
+                <h1 style="text-align: center;">2000</h1>
+                <h4 style="text-align: center;">Calories Remaining</h4>
+            </div>
+            <div class='col-lg-1'>
+                <i class="fas fa-chart-pie fa-2x" style="color: #272727; cursor: pointer; float: right;"
+                    onclick="openChart()"></i>
+            </div>
+            <br />
+
+        </div>
+        <br />
+        <br />
+        <br />
+        <hr class="featurette-divider">
+        <br />
+        <br />
+        <br />
+        <h2><a style="float: left;">Breakfast</a>
+            <svg class="bi bi-plus-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg" style="float: right; color: #272727; cursor: pointer;"
+                onclick="openNav()">
+                <path fill-rule="evenodd" d="M8 3.5a.5.5 0 01.5.5v4a.5.5 0 01-.5.5H4a.5.5 0 010-1h3.5V4a.5.5 0 01.5-.5z"
+                    clip-rule="evenodd" />
+                <path fill-rule="evenodd" d="M7.5 8a.5.5 0 01.5-.5h4a.5.5 0 010 1H8.5V12a.5.5 0 01-1 0V8z"
+                    clip-rule="evenodd" />
+                <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z"
+                    clip-rule="evenodd" />
+            </svg>
+        </h2>
+        <br />
+        <br />
+        <br />
+        <hr class="featurette-divider">
+        <br />
+        <br />
+        <br />
+        <h2><a style="float: left;">Lunch</a>
+            <svg class="bi bi-plus-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg" style="float: right; color: #272727; cursor: pointer;"
+                onclick="openNav()">
+                <path fill-rule="evenodd" d="M8 3.5a.5.5 0 01.5.5v4a.5.5 0 01-.5.5H4a.5.5 0 010-1h3.5V4a.5.5 0 01.5-.5z"
+                    clip-rule="evenodd" />
+                <path fill-rule="evenodd" d="M7.5 8a.5.5 0 01.5-.5h4a.5.5 0 010 1H8.5V12a.5.5 0 01-1 0V8z"
+                    clip-rule="evenodd" />
+                <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z"
+                    clip-rule="evenodd" />
+            </svg>
+        </h2>
+        <br />
+        <br />
+        <br />
+        <hr class="featurette-divider">
+        <br />
+        <br />
+        <br />
+        <h2><a style="float: left;">Dinner</a>
+            <svg class="bi bi-plus-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg" style="float: right; color: #272727; cursor: pointer;"
+                onclick="openNav()">
+                <path fill-rule="evenodd" d="M8 3.5a.5.5 0 01.5.5v4a.5.5 0 01-.5.5H4a.5.5 0 010-1h3.5V4a.5.5 0 01.5-.5z"
+                    clip-rule="evenodd" />
+                <path fill-rule="evenodd" d="M7.5 8a.5.5 0 01.5-.5h4a.5.5 0 010 1H8.5V12a.5.5 0 01-1 0V8z"
+                    clip-rule="evenodd" />
+                <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z"
+                    clip-rule="evenodd" />
+            </svg>
+        </h2>
+        <br />
+        <br />
+        <br />
+        <hr class="featurette-divider">
+        <br />
+        <br />
+        <br />
+        <h2><a style="float: left;">Snacks</a>
+            <svg class="bi bi-plus-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg" style="float: right; color: #272727; cursor: pointer;"
+                onclick="openNav()">
+                <path fill-rule="evenodd" d="M8 3.5a.5.5 0 01.5.5v4a.5.5 0 01-.5.5H4a.5.5 0 010-1h3.5V4a.5.5 0 01.5-.5z"
+                    clip-rule="evenodd" />
+                <path fill-rule="evenodd" d="M7.5 8a.5.5 0 01.5-.5h4a.5.5 0 010 1H8.5V12a.5.5 0 01-1 0V8z"
+                    clip-rule="evenodd" />
+                <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z"
+                    clip-rule="evenodd" />
+            </svg>
+        </h2>
+        <br />
+        <br />
+        <br />
+        <div id="myNav" class="overlay">
+            <p onclick="closeNav()"> <a href="javascript:void(0)" class="closebtn">&times;</a></p>
+
+            <div class="overlay-content">
+                <main role='main'>
+                    <div class='container marketing'>
+                        <h1 style=" text-align: center;">Add Food</h1>
+
+                        <br/>
+                        <br/>
+                        <form id='searchForm' class="form-inline d-flex justify-content-center md-form form-sm mt-0"
+                            style="margin: 0; padding: 0;">
+
+                            <i class="fas fa-search fa-2x" style="color: white; float: left;"></i>
+                            <input id='searchBar' class="form-control form-control-sm ml-3 w-75" type="text"
+                                placeholder="Search" aria-label="Search"
+                                style="background-color: transparent; color: white;  border-bottom:1px solid white; font-size: 20px; display: inline;">
+
+                            &emsp14; <a onclick="getFood()" class="btn btn-primary btn-primary"
+                                style=" border-radius: 10px;display: inline; background-color: #4f98ca; color: white; border: 1px solid #4f98ca;">Submit</a>
+                        </form>
+                        <h3 class = 'hide' style="text-align: center;" id='errorText'><br/><br/><br/>Error While Searching, Try Again!</h1>
+                        <table class='table-borderless' style=" border: none; color: white; width: 100%;">
+                            <br/>
+                            <br/>
+                            <br/>
+                           
+                            <tbody id='items' style="display: none;">
+                              
+                            </tbody>
+                        </table>
+                    </div>
+
+
+
+            </div>
+        </div>
+</main>
+</div>
+</div>
+<div id="chart" class="overlay">
+    <p onclick="closeChart()"> <a href="javascript:void(0)" class="closebtn">&times;</a></p>
+
+    <div class="overlay-content">
+        <main role='main'>
+            <div class='container marketing'>
+                <canvas id='pie-chart'
+                    style='background-color:transparent; border: none; margin: auto; width: 70%vw !important; height: 70%vw !important;'>
+
+            </div>
+        </main>
+    </div>
+</div>
+</div>
+</main>
+<script>
+    Chart.defaults.global.defaultFontColor = 'white';
+    Chart.defaults.global.defaultFontSize = 24;
+
+    $('#searchForm').on('submit',function (e){
+        e.preventDefault();
+    })
+    function getFood() {
+        let app_id = 'd6436c7d';
+        let api_key = '85d45512856b5726d15cdfa3094c8882';
+        let food = document.getElementById('searchBar').value;
+        let x = []
+        let url =
+            `https://api.edamam.com/api/food-database/parser?ingr=${encodeURIComponent(food)}&app_id=${app_id}&app_key=${api_key}`
+        async function findFood() {
+            try {
+                let clearError =   $('#errorText').addClass('hide')
+                let clearResults =   document.getElementById('items').innerHTML=''
+                let response = await axios.get(url)
+                
+                    for(let i = 0; i<=(Object.keys(response.data.hints).length)-1; i++)
+                    {
+                        document.getElementById('items').innerHTML+='<tr><td><img style="width: 50%; height: 50%;" src='+
+                        response.data.hints[i].food.image+'></td><td>100g</td><td>'+response.data.hints[i].food.label+'</td><td>Calories: '
+                        +Math.round(response.data.hints[i].food.nutrients.ENERC_KCAL)+'</td><td style="text-align:left;"> Protien:' 
+                        +Math.round(response.data.hints[i].food.nutrients.PROCNT)+'g <br/>Fat: '
+                        +Math.round(response.data.hints[i].food.nutrients.FAT)+'g <br/>Carbohydrates: '+
+                        Math.round(response.data.hints[i].food.nutrients.CHOCDF)+'g</td><td><form class="form-inline d-flex justify-content-center md-form form-sm mt-0">'
+                        +'<input  class="form-control form-control-sm ml-3 " type="number"placeholder="Quanity" aria-label="Search"style="background-color: transparent; color: white; width:30%; border-bottom:1px solid white; display: inline;"> &emsp14;<a onclick="" class="btn btn-primary btn-primary"style=" border-radius: 10px;display: inline; background-color: #4f98ca; color: white; border: 1px solid #4f98ca;">Add</a></form></td></tr><hr class="featurette-divider">'
+                    }
+                
+                let displayResults = await $('#items').css('display','');
+            } catch (error) {
+                $('#errorText').removeClass()
+                console.log(error);
+                
+            }
+
+        }
+        findFood()
+    }
+
+    function openNav() {
+        document.getElementById("myNav").style.width = "100%";
+
+    }
+
+    function closeNav() {
+        document.getElementById("myNav").style.width = "0%";
+
+    }
+
+    function openChart() {
+        document.getElementById("chart").style.width = "100%";
+
+    }
+
+    function closeChart() {
+        document.getElementById("chart").style.width = "0%";
+
+    }
+
+    var canvas = 'pie-chart';
+    let ctx = 'pie-chart'
+
+
+
+    var data = {
+        labels: ["Carbohydrates", "Protiens", "Lipids"],
+        datasets: [{
+            fill: true,
+            backgroundColor: [
+                'rgb(255,211,29)',
+                'rgb(214,52,71)',
+                'rgb(245,123,81)'
+            ],
+            data: [25, 25, 50],
+
+            borderColor: ['black', 'black', 'black'],
+            borderWidth: [2, 2, 2]
+        }]
+    };
+
+
+    var options = {
+        title: {
+            display: true,
+            text: 'Your Macromolecues',
+            position: 'top',
+            color: 'white',
+        },
+        rotation: -0.7 * Math.PI,
+        tooltips: {
+            enabled: false,
+        },
+
+    };
+
+
+
+    var myBarChart = new Chart(ctx, {
+        type: 'pie',
+        data: data,
+        options: options
+    });
+</script>
+
+{% endblock content%}

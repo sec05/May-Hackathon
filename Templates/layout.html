@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/bootstrap-slider.min.js">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <script src="https://kit.fontawesome.com/52bbfb2555.js" crossorigin="anonymous"></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js'></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+</head>
+<style>
+  body {
+    background-color: white;
+  }
+
+  .h2 .h3 .p .a {
+    color: #272727 !important;
+  }
+
+  .overlay {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.95);
+    overflow-x: hidden;
+    transition: 0.5s;
+  }
+
+  .overlay-content {
+    position: relative;
+    top: 10%;
+    width: 100%;
+    color: white;
+
+  }
+
+  .overlay h1 {
+    padding: 8px;
+    text-decoration: none;
+    font-size: 46px;
+    color: white;
+    display: block;
+    transition: 0.3s;
+  }
+
+
+
+  .overlay .closebtn {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    font-size: 60px;
+    color: white;
+  }
+
+  input[type="text"],
+  select.form-control {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid white;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  input[type="text"]:focus,
+  select.form-control:focus {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+
+  .hide {
+    width: 0px !important;
+    height: 0px !important;
+    overflow: hidden !important;
+
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+</style>
+
+<body>
+  <header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top " style="background-color: #4f98ca">
+      <a class="navbar-brand" style="color: white;" href='/'>May-Hackathon</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/" style="color: white;">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/food" style="color: white;">Food</a>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="/exersise" id="navbarDropdown" role="button"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">
+              Exersise
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown"
+              style="background-color: #4f98ca; color:#4f98ca; border: 1px solid white;">
+              <a class="dropdown-item bg-transparent" href="/exersise" style="color: white;">Add Exersise</a>
+
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item bg-transparent" href="/run" style="color: white;">Track Run</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/resources" style="color: white;">Resources</a>
+          </li>
+        </ul>
+        <a href="/signup"> <button class="btn btn"
+            style="border: none; color: white; background-color: transparent;">Sign Up</button></a>&nbsp;
+        <a href="/login"> <button class="btn btn"
+            style="border: none; color: white; background-color: transparent;">Login</button></a>
+      </div>
+    </nav>
+  </header>
+  {%block content%}
+  {%endblock%}
+  <footer class="container">
+
+    <p class="float-right"><a onclick="window.scrollTo({ top: 0, behavior: 'smooth' });"
+        style="text-decoration: underline; cursor: pointer;">Back to top</a></p>
+    <p>Juni Learning May Hackathon &middot; <a> Spencer Evans-Cole and Manu Hegde &middot; <a href='/resources'>
+          Resources
+        </a></a></p>
+
+  </footer>
+</body>
+
+</body>
+<script>
+  $(function () {
+    /**
+     * Read the size of the window and reposition the footer at the bottom.
+     */
+    var stickyFooter = function () {
+      var pageHeight = $('html').height();
+      var windowHeight = $(window).height();
+      var footerHeight = $('footer').outerHeight();
+
+      // A footer with 'fixed-bottom' has the CSS attribute "position: absolute",
+      // and thus is outside of its container and counted in $('html').height().
+      var totalHeight = $('footer').hasClass('fixed-bottom') ?
+        pageHeight + footerHeight : pageHeight;
+
+      // If the window is larger than the content, fix the footer at the bottom.
+      if (windowHeight >= totalHeight) {
+        return $('footer').addClass('fixed-bottom');
+      } else {
+        // If the page content is larger than the window, the footer must move.
+        return $('footer').removeClass('fixed-bottom');
+      }
+    };
+
+    // Call when this script is first loaded.
+    window.onload = stickyFooter;
+
+    // Call again when the window is resized.
+    $(window).resize(function () {
+      stickyFooter();
+    });
+  });
+</script>
+
+</html>

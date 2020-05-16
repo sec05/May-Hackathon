@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css'>
+        <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src ='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/transition.min.js'></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/dropdown.min.js"></script>
+        
+        <style>
+            body {
+            background-color: #d6d9dc;
+        }
+
+
+        .signup {
+            width: 30%;
+            background-color: white;
+            padding: 10px;
+        }
+
+        .login {
+            text-decoration: none;
+            font-size: 20px;
+        }
+
+        .error {
+            background-color: red;
+            color: white;
+            text-align: center;
+            width: 20%;
+            z-index: 10;
+            position: relative;
+            left: -2.222222%;
+        }
+        </style>
+    </head>
+    
+    <body>
+        <center>
+            <div class="signup" style="height: 80%;">
+                <center>
+                    <p class="login" style="font-size: 250%;">Create Account </p>
+                </center> <br>
+                <center>
+                    {% with message = get_flashed_messages(with_categories = True) %}
+                    <dl>
+                        {% for category, message in message %}
+                        <dd class="{{category}}"><i class="exclamation icon" style="color:white;"></i>{{message}}</dd>
+                        {% endfor %}
+                    </dl>
+                    {% endwith %}
+                    <form action="/signup" method='POST' class="ui form">
+                        <div class="field">
+                            <label style="float: left;">Username</label>
+                            <input type="text" id="username" name="username" required placeholder="Username">
+                        </div>
+                        <div class="field">
+                            <label style="float: left;">Password</label>
+                            <!--Code for a password requirement: pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"    title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"-->
+                            <input type="password" id="password" name="password" required placeholder="Password">
+                            <p style="font-size: 12px;">
+                                <!--Password must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters-->
+                            </p>
+                        </div>
+                        <div class="field">
+                            <label style="float: left;">Confirm Password</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" required
+                                placeholder="Confirm password">
+                        </div>
+                        <div class="three fields">
+                            <div class="field">
+                            <label style="float: left;">Current Weight</label>
+                            <input type="number" id="currentWeight" name="currentWeight" required placeholder="Current Weight">
+                            </div>
+                            <div class="field">
+                            <label style="float: left;">Goal Weight</label>
+                            <input type="number" id="goalWeight" name="goalWeight" required placeholder="Goal Weight">
+                            </div>
+                            
+                            
+                            <div class="field">
+                            <label style="text-align: left;">Current Height</label>
+                           
+                            <select class='ui fluid search selection dropdown'>
+                                <option value=""> feet inches</option>
+                                <option value="4ft8in">4ft 8in</option>
+                                <option value="4ft9in">4ft 9in</option>
+                                <option value="4ft10in">4ft 10in</option>
+                                <option value="4ft11in">4ft 11in</option>
+                                <option value="5ft0in">5ft 0in</option>
+                                <option value="5ft1in">5ft 1in</option>
+                                <option value="5ft2in">5ft 2in</option>
+                                <option value="5ft3in">5ft 3in</option>
+                                <option value="5ft4in">5ft 4in</option>
+                                <option value="5ft5in">5ft 5in</option>
+                                <option value="5ft6in">5ft 6in</option>
+                                <option value="5ft7in">5ft 7in</option>
+                                <option value="5ft8in">5ft 8in</option>
+                                <option value="5ft9in">5ft 9in</option>
+                                <option value="5ft10in">5ft 10in</option>
+                                <option value="5ft11in">5ft 11in</option>
+                                <option value="6ft0in">6ft 0in</option>
+                                <option value="6ft1in">6ft 1in</option>
+                                <option value="6ft2in">6ft 2in</option>
+                                <option value="6ft3in">6ft 3in</option>
+                                <option value="6ft4in">6ft 4in</option>
+                                <option value="6ft5in">6ft 5in</option>
+                                <option value="6ft6in">6ft 6in</option>
+                                <option value="6ft7in">6ft 7in</option>
+                                <option value="6ft8in">6ft 8in</option>
+                            </select>
+                            </div>
+                        </div>
+                        
+                        
+                        <button class="ui button submit" onclick="check()"
+                            style="background-color: #4f98ca; color: white; float: right; width: 100%;">Sign Up!</button>
+                    </form> <br> <br> <br>
+                </center>
+                <p>Already have an account? <a href="/login">Log in</a></p>
+            </div>
+        </center>
+    </body>
+    <script>$('.ui.dropdown')
+        .dropdown();</script>
+</html>

@@ -60,7 +60,10 @@ def exerises():
 @app.route('/test')
 def test():
     return render_template('test.html')
-    
+
+@app.route('/analytics')
+def analytics():
+    return render_template('analytics.html')
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
 

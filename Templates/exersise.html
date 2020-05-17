@@ -9,20 +9,20 @@
         <div class='row row-eq-height'>
             <div class='col-lg-4'>
                 <h1 style="text-align: center;">Time Exersising:</h1>
-                
+
             </div>
-        
+
             <div class='col-lg-2'>
                 <h1 style="text-align: center;">00:00</h1>
-                
+
             </div>
             <div class='col-lg-4 ml-auto'>
                 <h1 style="text-align: center;">Sets Completed:</h1>
-                
+
             </div>
             <div class='col-lg-2'>
                 <h1 style="text-align: center;">0</h1>
-                
+
             </div>
         </div>
         <br />
@@ -44,48 +44,67 @@
                     clip-rule="evenodd" />
             </svg>
         </h2>
-        <br/>
+        <br />
         <br />
         <br />
         <br />
         <h2 style="float: left;">Exersises Completed<h2>
-      
-        <br/>
-        <hr class="featurette-divider">
-        <div id="myNav" class="overlay">
-            <p onclick="closeNav()"> <a href="javascript:void(0)" class="closebtn">&times;</a></p>
 
-            <div class="overlay-content">
-                <main role='main'>
-                    <div class='container marketing'>
-                        <h1 style=" text-align: center;">Add Exersise</h1>
+                <br />
+                <hr class="featurette-divider">
+                <div id="myNav" class="overlay">
+                    <p onclick="closeNav()"> <a href="javascript:void(0)" class="closebtn">&times;</a></p>
 
-                        <br/>
-                        <br/>
+                    <div class="overlay-content">
+                        <main role='main'>
+                            <div class='container marketing'>
+                                <h1 style=" text-align: center;">Add Exersise</h1>
 
-                        <form id='searchForm' class="form-inline d-flex justify-content-center md-form form-sm mt-0"
-                            style="margin: 0; padding: 0;">
+                                <br />
+                                <br />
 
-                            <i class="fas fa-search fa-2x" style="color: white; float: left;"></i>
-                            <input id='searchBar' class="form-control form-control-sm ml-3 w-75" type="text"
-                                placeholder="Search" aria-label="Search"
-                                style="background-color: transparent; color: white;  border-bottom:1px solid white; font-size: 20px; display: inline;">
+                                <form id='searchForm'
+                                    class="form-inline d-flex justify-content-center md-form form-sm mt-0"
+                                    style="margin: 0; padding: 0;">
 
-                            &emsp14; <a onclick="getFood()" class="btn btn-primary btn-primary"
-                                style=" border-radius: 10px;display: inline; background-color: #4f98ca; color: white; border: 1px solid #4f98ca;">Submit</a>
-                        </form>
-                        <h3 class = 'hide' style="text-align: center;" id='errorText'><br/><br/><br/>Error While Searching, Try Again!</h1>
+                                    <i class="fas fa-search fa-1x" style="color: white; float: left;"></i>
+                                    <input id='searchBar' class="form-control form-control-sm ml-3 w-75" type="text"
+                                        placeholder="Search" aria-label="Search"
+                                        style="background-color: transparent; color: white;  border-bottom:1px solid white; font-size: 20px; display: inline;">
+
+                                    &emsp14; <a
+                                        onclick="getExersises.search(document.getElementById('searchBar').value)"
+                                        class="btn btn-primary btn-primary"
+                                        style=" border-radius: 10px;display: inline; background-color: #4f98ca; color: white; border: 1px solid #4f98ca;">Submit</a>
+                                </form>
+                                <h3 class='hide' style="text-align: center;" id='errorText'><br /><br /><br />Error
+                                    While Searching, Try Again!</h1>
+                                    <h3 class='hide' style="text-align: center;" id='noResults'><br /><br /><br />
+                                        No Results, Search Again!</h1>
+
+                                        <table class='table-borderless'
+                                            style=" border: none; color: white; width: 100%;">
+                                            <br />
+                                            <br />
+                                            <br />
+
+                                            <tbody id='items' style="display: none;">
+
+                                            </tbody>
+                                        </table>
+                            </div>
+
+
+
                     </div>
-
-
-
-            </div>
-        </div>
+                </div>
     </div>
-</main> 
+</main>
 <script>
     let exersises = []
-     function openNav() {
+    let noIn = false;
+
+    function openNav() {
         document.getElementById("myNav").style.width = "100%";
 
     }
@@ -94,33 +113,56 @@
         document.getElementById("myNav").style.width = "0%";
 
     }
-    async function getExersises()
-    {
-       
+    async function getExersises() {
+
         let response = await axios.get('/api/exersises')
-       for(i = 0; i<=897; i++)
-       {
-           
-           exersises.push(response.data[i].exercise)
-           //console.log(exersises)
-       }
-       async function search(term){
-      
-    let b= await exersises.filter(item => item.toLowerCase().indexOf(term)>-1);
-   let x = await console.log(b)
-       }
-       search(term='leg')
+        for (i = 0; i <= 897; i++) {
+
+            exersises.push(response.data[i].exercise)
+
+        }
+        async function search(term) {
+            if (term.match(/^[a-z0-9]+$/i)) {
+                try {
+                    term = term.toLowerCase()
+                    noIn = false;
+                    let clearNoResults = $('#noResults').addClass('hide')
+                    let clearError = $('#errorText').addClass('hide')
+                    let clearResults = document.getElementById('items').innerHTML = ''
+                    let query = await exersises.filter(item => item.toLowerCase().indexOf(term) > -1);
+                    if (document.getElementById('searchBar').value === '') {
+                        $('#noResults').removeClass()
+                        noIn = true;
+                    }
+                    if (noIn == false) {
+                        if (query.length >= 1) {
+                            for (r = 0; r <= query.length - 1; r++) {
+
+                                document.getElementById('items').innerHTML += '<tr><td>' + query[r] +
+                                    '</td><td><input  class="form-control form-control-sm ml-3 "type="number"placeholder="hr" aria-label="Search"style="background-color: transparent; color: white; width:10%; border-bottom:1px solid white; display: inline;"><input  class="form-control form-control-sm ml-3 "type="number"placeholder="min" aria-label="Search"style="background-color: transparent; color: white; width:10%; border-bottom:1px solid white; display: inline;"><input  class="form-control form-control-sm ml-3 "type="number"placeholder="Sets" aria-label="Search"style="background-color: transparent; color: white; width:20%; border-bottom:1px solid white; display: inline;"><input  class="form-control form-control-sm ml-3 " type="number"placeholder="Reps" aria-label="Search"style="background-color: transparent; color: white; width:20%; border-bottom:1px solid white; display: inline;"> &emsp14;<a onclick="" class="btn btn-primary btn-primary"style=" border-radius: 10px;display: inline; background-color: #4f98ca; color: white; border: 1px solid #4f98ca;">Add</a></form></td></tr><hr class="featurette-divider"><br/></tr>'
+                            }
+                        }
+                        if (query.length <= 0) {
+                            $('#noResults').removeClass()
+                        }
+                        let displayResults = await $('#items').css('display', '');
+                    }
+                } catch (error) {
+                    $('#errorText').removeClass()
+                    console.log(error);
+                }
+            }
+            else {
+                $('#errorText').removeClass()
+                let clearResults = document.getElementById('items').innerHTML = ''
+                }
+        }
+        
+        getExersises.search = search;
     }
-    $('#searchForm').on('submit',function (e){
+    $('#searchForm').on('submit', function (e) {
         e.preventDefault();
     })
     getExersises()
-
-    
-/*
-let a = ["foo","fool","cool","god"]; 
-let term = 'oo';
-let b = a.filter(item => item.toLowerCase().indexOf(term) > -1);
-console.log(b)*/
 </script>
 {%endblock content%}

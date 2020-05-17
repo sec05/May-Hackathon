@@ -1,35 +1,27 @@
-{% extends "layout.html"%}
-{%block content%}
-<div id ='test-div'>
-
-</div>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.css" rel="stylesheet"/>
+</head>
+<body>
+  <div>
+    <input type="text" id="time" placeholder="Time">
+  </div>
+</body>
 <script>
-  let app_id = 'd6436c7d';
-  let api_key = '85d45512856b5726d15cdfa3094c8882';
+  var timepicker = new TimePicker('time', {
+  lang: 'en',
+  theme: 'dark'
+});
+timepicker.on('change', function(evt) {
   
-  async function getFood ()
-  {
-    let response = await axios.get(`https://api.edamam.com/api/food-database/parser?ingr=banana&app_id=${app_id}&app_key=${api_key}`)
-   
-    
-    console.log(response)
-    
-  }
-console.log(axios.get(`https://api.edamam.com/api/food-database/parser?ingr=banana&app_id=${app_id}&app_key=${api_key}`)
-   )
+  var value = (evt.hour || '00') + ':' + (evt.minute || '00');
+  evt.element.value = value;
 
-//let m = axios.get('/api/exersises')
-//console.log(m)
-async function getExersise () 
-{
-  let exersises = await axios.get('/api/exersises')
-  let num1 = await console.log(exersises.data[0].exercise)
-}
-
-getExersise()
-
+});
 </script>
-
-
-{% endblock content%}
+</html>

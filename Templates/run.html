@@ -3,24 +3,55 @@
 <br />
 <br />
 <br />
-<div class='row row-eq-height'>
-    <div class='col-lg-4'>
-        <h1 style="text-align: center;">Time:</h1>
 
-        <h1 style="text-align: center;">00:00</h1>
-    </div>
-    
-    <div class="col-lg-4 ml-auto text-center">
-        
-        <a href="#" class="btn btn-lg btn-primary" style="width: 30;color: white; background-color: #4f98ca; border: 1px solid #4f98ca; border-radius: 10px;">Start</a>
-       
-    </div>
-    
-    <div class='col-lg-4 ml-auto'>
-        <h1 style="text-align: center;">Miles:</h1>
-        <h1 style="text-align: center;">0</h1>
 
-    </div>
+<h4 style="float: right;">Weather:<a id='weatherResults'></a></h1>
+    <div id="map" style="position: absolute; margin-left:25%;margin-right:25%;width:50%;height: 70%;"></div>
 
-</div>
-{% endblock content%}
+    <script>
+        let posIcon = new L.Icon({
+            iconUrl: 'https://api.geoapify.com/v1/icon/?type=circle&color=%234f98ca&size=small&icon=Circle&iconType=awesome&iconSize=small&strokeColor=%230346ff&noWhiteCircle&apiKey=c95f29ee641d4197bb612d71b4d6c435'
+        })
+        api_key =
+            'c8ae987d039ba96d612968e4e689a032' // url = `api.openweathermap.org/data/2.5/weather?q={city name},{state}&appid=${api_key}`
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                async (position) => {
+
+
+                    let response = await axios.get('https://api.openweathermap.org/data/2.5/weather?lat=' +
+                        position.coords.latitude + '&lon=' + position.coords.longitude +
+                        '&appid=c8ae987d039ba96d612968e4e689a032&units=imperial');
+                    document.getElementById('weatherResults').innerHTML += response.data.name + ', ' + response
+                        .data.weather[0].main + ', ' + response.data.main.temp + '&#8457;';
+
+
+                })
+        } else {
+            window.alert('Geolocation Failed!')
+        }
+        let map = L.map('map').setView([0, 0], 2);
+        L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=gFX05mk9hDIatdpgPG7C', {
+            attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
+            maxZoom: 18,
+            tileSize: 512,
+            zoomOffset: -1,
+            zoomControl: false
+
+        }).addTo(map);
+        map.locate({
+            watch: true,
+            setView: true,
+            maxZoom: 16
+        }).on('locationfound', (e) => {
+            if (!this.marker) {
+                this.marker = L.marker([e.latitude, e.longitude], {
+                    icon: posIcon,
+                }).addTo(map);
+            } else {
+                this.marker.setLatLng([e.latitude, e.longitude]);
+            }
+        })
+    </script>
+    </div>
+    {% endblock content%}

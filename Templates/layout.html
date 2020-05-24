@@ -86,10 +86,12 @@
   }
 
   .hide {
-    width: 0px !important;
-    height: 0px !important;
+    width: 0% !important;
+    height: 0% !important;
     overflow: hidden !important;
-
+    border: none !important;
+    padding: 0%;
+  
   }
 
   input::-webkit-outer-spin-button,
@@ -151,7 +153,7 @@
   </header>
   {%block content%}
   {%endblock%}
-  <footer class="container">
+  <footer class="container" style="z-index: -1;">
 
     <p class="float-right"><a onclick="window.scrollTo({ top: 0, behavior: 'smooth' });"
         style="text-decoration: underline; cursor: pointer;">Back to top</a></p>

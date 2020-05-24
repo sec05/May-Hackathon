@@ -1,11 +1,10 @@
 from flask import Flask, render_template, session, request, flash, redirect
 from flask_sqlalchemy import SQLAlchemy
-from flask_cors import CORS
 import json
 from datetime import datetime
 
 app = Flask(__name__)
-CORS(app)
+
 app.config['SECRET_KEY'] = 'hello'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'

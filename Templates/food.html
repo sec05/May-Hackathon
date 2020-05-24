@@ -60,6 +60,7 @@
                     clip-rule="evenodd" />
             </svg>
         </h2>
+        <div id='addTest'></div>
         <br />
         <br />
         <br />
@@ -148,7 +149,20 @@
                             <br/>
                            
                             <tbody id='items' style="display: none;">
-                              
+                                <thead>
+                                    <tr style="border-bottom:1px solid white;">
+                                      <th>Image</th>
+                                      <th>Amount</th>
+                                      <th>Name</th>
+                                      <th>Calories</th>
+                                      <th>Macros</th>
+                                      <th>Add</th>
+                                      <hr class="featurette-divider">
+                                      
+                                    </tr>
+                                
+                                   
+                                  </thead>
                             </tbody>
                         </table>
                     </div>
@@ -176,6 +190,7 @@
 </div>
 </main>
 <script>
+    
     Chart.defaults.global.defaultFontColor = 'white';
     Chart.defaults.global.defaultFontSize = 24;
 
@@ -194,19 +209,30 @@
                 let clearError =   $('#errorText').addClass('hide')
                 let clearResults =   document.getElementById('items').innerHTML=''
                 let response = await axios.get(url)
-                
+                let image;
+               
                     for(let i = 0; i<=(Object.keys(response.data.hints).length)-1; i++)
                     {
+                       
+                        if( response.data.hints[i].food.image===undefined)
+                        {
+                            image="https://www.edamam.com/food-img/771/7715ef0a0acc8062e37a3a19e6caa5a5.png"
+                        }
+                        else{
+                            image = response.data.hints[i].food.image;
+                        }
                         document.getElementById('items').innerHTML+='<tr><td><img style="width: 50%; height: 50%;" src='+
-                        response.data.hints[i].food.image+'></td><td>100g</td><td>'+response.data.hints[i].food.label+'</td><td>Calories: '
+                        image+'></td><td>100g</td><td>'+response.data.hints[i].food.label+'</td><td>Calories: '
                         +Math.round(response.data.hints[i].food.nutrients.ENERC_KCAL)+'</td><td style="text-align:left;"> Protien:' 
                         +Math.round(response.data.hints[i].food.nutrients.PROCNT)+'g <br/>Fat: '
                         +Math.round(response.data.hints[i].food.nutrients.FAT)+'g <br/>Carbohydrates: '+
                         Math.round(response.data.hints[i].food.nutrients.CHOCDF)+'g</td><td><form class="form-inline d-flex justify-content-center md-form form-sm mt-0">'
-                        +'<input  class="form-control form-control-sm ml-3 " type="number"placeholder="Quanity" aria-label="Search"style="background-color: transparent; color: white; width:30%; border-bottom:1px solid white; display: inline;"> &emsp14;<a onclick="" class="btn btn-primary btn-primary"style=" border-radius: 10px;display: inline; background-color: #4f98ca; color: white; border: 1px solid #4f98ca;">Add</a></form></td></tr><hr class="featurette-divider">'
+                        +'<input  class="form-control form-control-sm ml-3 " type="number"placeholder="Quanity" aria-label="Search"style="background-color: transparent; color: white; width:30%; border-bottom:1px solid white; display: inline;"> &emsp14;<a class="btn btn-primary btn-primary"style=" border-radius: 10px;display: inline; background-color: #4f98ca; color: white; border: 1px solid #4f98ca;">Add</a></form></td></tr><hr class="featurette-divider">'
+                    
                     }
                 
                 let displayResults = await $('#items').css('display','');
+               
             } catch (error) {
                 $('#errorText').removeClass()
                 console.log(error);

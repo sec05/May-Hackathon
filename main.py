@@ -37,7 +37,7 @@ def signup():
 
 @app.route('/resources')
 def credits():
-    return render_template('credits.html')
+    return render_template('resources.html')
 
 
 @app.route('/exersise')

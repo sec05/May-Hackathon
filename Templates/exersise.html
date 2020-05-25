@@ -28,11 +28,9 @@
         <br />
         <br />
         <br />
-        <hr class="featurette-divider">
-        <br />
-        <br />
-        <br />
-        <h2><a style="float: left;">Add Exersise</a>
+
+
+        <h2><a style='float:left;'>Exersises </a>
             <svg class="bi bi-plus-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg" style="float: right; color: #272727; cursor: pointer;"
                 onclick="openNav()">
@@ -43,15 +41,15 @@
                 <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z"
                     clip-rule="evenodd" />
             </svg>
-        </h2>
-        <br />
-        <br />
-        <br />
-        <br />
-        <h2 style="float: left;">Exersises Completed<h2>
+            <h2>
 
                 <br />
                 <hr class="featurette-divider">
+                <table class="table-borderless">
+                    <tbody id='addExersises'>
+
+                    </tbody>
+                </table>
                 <div id="myNav" class="overlay">
                     <p onclick="closeNav()"> <a href="javascript:void(0)" class="closebtn">&times;</a></p>
 
@@ -77,16 +75,14 @@
                                         class="btn btn-primary btn-primary"
                                         style=" border-radius: 10px;display: inline; background-color: #4f98ca; color: white; border: 1px solid #4f98ca;">Submit</a>
                                 </form>
-                                <h3 class='hide' style="text-align: center;" id='errorText'><br /><br /><br />Error
+                                <h3 class='hide' style="text-align: center;" id='errorText'>Error
                                     While Searching, Try Again!</h1>
-                                    <h3 class='hide' style="text-align: center;" id='noResults'><br /><br /><br />
+                                    <h3 class='hide' style="text-align: center; display: none;" id='noResults'>
                                         No Results, Search Again!</h1>
 
                                         <table class='table-borderless'
                                             style=" border: none; color: white; width: 100%;">
-                                            <br />
-                                            <br />
-                                            <br />
+
 
                                             <tbody id='items' style="display: none;">
 
@@ -106,30 +102,38 @@
 
     function openNav() {
         document.getElementById("myNav").style.width = "100%";
-
+        $('#items').css('display', '')
     }
 
     function closeNav() {
         document.getElementById("myNav").style.width = "0%";
+        $('#items').css('display', 'none')
+
 
     }
+
     async function getExersises() {
 
-        let response = await axios.get('/api/exersises')
+        let response = await axios.get('/api/exersises')//gets exersises form exersies.json and then throws them into an array
         for (i = 0; i <= 897; i++) {
 
             exersises.push(response.data[i].exercise)
 
         }
         async function search(term) {
-            if (term.match(/^[a-z0-9]+$/i)) {
+            if (term.match(/^[a-z0-9]+$/i)) {//uses regex to check if its characters but its buggy
                 try {
+                    $('body').css('cursor', 'wait')
                     term = term.toLowerCase()
                     noIn = false;
-                    let clearNoResults = $('#noResults').addClass('hide')
+                    let clearNoResults = $('#noResults').addClass('hide') && $('#noResults').css('display', 'none')
                     let clearError = $('#errorText').addClass('hide')
                     let clearResults = document.getElementById('items').innerHTML = ''
-                    let query = await exersises.filter(item => item.toLowerCase().indexOf(term) > -1);
+                    let query = await exersises.filter(item => item.toLowerCase().indexOf(term) > -1);//searches exersises then puts matches in another list
+                    function addExersise(exercise) {
+                        this.exersise = exercise;
+                        
+                    }
                     if (document.getElementById('searchBar').value === '') {
                         $('#noResults').removeClass()
                         noIn = true;
@@ -137,17 +141,20 @@
                     if (noIn == false) {
                         if (query.length >= 1) {
                             for (r = 0; r <= query.length - 1; r++) {
-
-                                document.getElementById('items').innerHTML += '<tr><td>' + query[r] +
-                                    '</td><td><input  class="form-control form-control-sm ml-3 "type="number"placeholder="hr" aria-label="Search"style="background-color: transparent; color: white; width:10%; border-bottom:1px solid white; display: inline;"><input  class="form-control form-control-sm ml-3 "type="number"placeholder="min" aria-label="Search"style="background-color: transparent; color: white; width:10%; border-bottom:1px solid white; display: inline;"><input  class="form-control form-control-sm ml-3 "type="number"placeholder="Sets" aria-label="Search"style="background-color: transparent; color: white; width:20%; border-bottom:1px solid white; display: inline;"><input  class="form-control form-control-sm ml-3 " type="number"placeholder="Reps" aria-label="Search"style="background-color: transparent; color: white; width:20%; border-bottom:1px solid white; display: inline;"> &emsp14;<a onclick="" class="btn btn-primary btn-primary"style=" border-radius: 10px;display: inline; background-color: #4f98ca; color: white; border: 1px solid #4f98ca;">Add</a></form></td></tr><hr class="featurette-divider"><br/></tr>'
+                                //lists out query elements
+                                document.getElementById('items').innerHTML += '<tr ><td>' + query[r] +
+                                    '</td><td><input  class="form-control form-control-sm ml-3 "type="number"placeholder="hr" aria-label="Search"style="background-color: transparent; color: white; width:10%; border-bottom:1px solid white; display: inline;"><input  class="form-control form-control-sm ml-3 "type="number"placeholder="min" aria-label="Search"style="background-color: transparent; color: white; width:10%; border-bottom:1px solid white; display: inline;"><input  class="form-control form-control-sm ml-3 "type="number"placeholder="Sets" aria-label="Search"style="background-color: transparent; color: white; width:20%; border-bottom:1px solid white; display: inline;"><input  class="form-control form-control-sm ml-3 " type="number"placeholder="Reps" aria-label="Search"style="background-color: transparent; color: white; width:20%; border-bottom:1px solid white; display: inline;"> &emsp14;<a onclick="addExersise(r)" class="btn btn-primary btn-primary"style=" border-radius: 10px;display: inline; background-color: #4f98ca; color: white; border: 1px solid #4f98ca;">Add</a></form></td></tr><hr class="featurette-divider"><br/></tr>'
                             }
                         }
-                        if (query.length <= 0) {
+                        if (query.length <= 0) {//shows no results text
                             $('#noResults').removeClass()
+                            $('#noResults').css('display', '')
                         }
                         let displayResults = await $('#items').css('display', '');
+                        $('body').css('cursor', 'auto')
+
                     }
-                } catch (error) {
+                } catch (error) {//any error
                     $('#errorText').removeClass()
                     console.log(error);
                 }
@@ -156,9 +163,9 @@
                 $('#errorText').removeClass()
                 $('#noResults').addClass('hide')
                 let clearResults = document.getElementById('items').innerHTML = ''
-                }
+            }
         }
-        
+
         getExersises.search = search;
     }
     $('#searchForm').on('submit', function (e) {

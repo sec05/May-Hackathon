@@ -35,11 +35,11 @@
 </main>
 <script>
     let totalDis = 0;
-    function degreesToRadians(degrees) {//this just gets dis between 2 points in km
+    function degreesToRadians(degrees) {
         return degrees * Math.PI / 180;
     }
 
-    function distanceInKmBetweenEarthCoordinates(lat1, lon1, lat2, lon2) {
+    function distanceInKmBetweenEarthCoordinates(lat1, lon1, lat2, lon2) {//gets dis between 2 points in KM and then converts to mi
         var earthRadiusKm = 6371;
 
         var dLat = degreesToRadians(lat2 - lat1);
@@ -53,6 +53,7 @@
         var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         var Km = earthRadiusKm * c;
         var mi = Km * 1.609;
+        mi=  Math.round((mi + Number.EPSILON) * 100) / 100
         totalDis += mi;
         
     }
@@ -70,6 +71,8 @@
 
     function start() {//<- on start button click
         totalDis = 0; 
+        document.getElementById('miles').innerHTML+=''
+        document.getElementById('miles').innerHTML+=0
         if (timerFunctionCounter === 0) { //function only runsz once
             timer()
             timerFunctionCounter++;
@@ -89,7 +92,7 @@
 
         setInterval(function () {
           
-            if (startCheck === true) {
+            if (startCheck === true) {//simple timer
                 
                 document.getElementById('time').innerHTML = ''
                 document.getElementById('time').innerHTML += hours + ':' + minutes + ':' + seconds;
@@ -196,7 +199,7 @@
         watch: true,
         setView: true,
         maxZoom: 16
-    }).on('locationfound', (e) => {
+    }).on('locationfound', (e) => {//puts marker on users location
         if (!this.marker) {
             this.marker = L.marker([e.latitude, e.longitude], {
                 icon: posIcon,

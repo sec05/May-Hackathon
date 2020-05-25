@@ -142,8 +142,8 @@
                             &emsp14; <a onclick="getFood()" class="btn btn-primary btn-primary"
                                 style=" border-radius: 10px;display: inline; background-color: #4f98ca; color: white; border: 1px solid #4f98ca;">Submit</a>
                         </form>
-                        <h3 class = 'hide' style="text-align: center;" id='errorText'><br/><br/><br/>Error While Searching, Try Again!</h1>
-                        <table class='table-borderless' style=" border: none; color: white; width: 100%;">
+                        <h3 class = 'hide' style="text-align: center; display: none;" id='errorText'><br/><br/><br/>Error While Searching, Try Again!</h1>
+                        <table class='table-borderless' style=" border: none; color: white; width: 100%;table-layout: fixed;">
                             <br/>
                             <br/>
                             <br/>
@@ -166,7 +166,7 @@
                             </tbody>
                         </table>
                     </div>
-
+                   
 
 
             </div>
@@ -206,7 +206,8 @@
             `https://api.edamam.com/api/food-database/parser?ingr=${encodeURIComponent(food)}&app_id=${app_id}&app_key=${api_key}`
         async function findFood() {
             try {
-                let clearError =   $('#errorText').addClass('hide')
+               $('#errorText').addClass('hide')
+                $('#errorText').css('display','none')
                 let clearResults =   document.getElementById('items').innerHTML=''
                 let response = await axios.get(url)
                 let image;
@@ -235,6 +236,7 @@
                
             } catch (error) {
                 $('#errorText').removeClass()
+                $('#errorText').css('display','')
                 console.log(error);
                 
             }

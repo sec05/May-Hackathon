@@ -19,7 +19,7 @@
             </div>
             <div class="col-lg-4" style="float: right; text-align: center;">
                 <h1>Miles</h1>
-                <h1 id='miles'>0.00</h1>
+                <h1 id='miles'>0</h1>
             </div>
             <div class="col-lg-8 ">
                 <h4 style="float: right;">Weather:<a id='weatherResults'></a></h4>
@@ -34,34 +34,63 @@
 
 </main>
 <script>
+    let totalDis = 0;
+    function degreesToRadians(degrees) {//this just gets dis between 2 points in km
+        return degrees * Math.PI / 180;
+    }
+
+    function distanceInKmBetweenEarthCoordinates(lat1, lon1, lat2, lon2) {
+        var earthRadiusKm = 6371;
+
+        var dLat = degreesToRadians(lat2 - lat1);
+        var dLon = degreesToRadians(lon2 - lon1);
+
+        lat1 = degreesToRadians(lat1);
+        lat2 = degreesToRadians(lat2);
+
+        var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        var Km = earthRadiusKm * c;
+        var mi = Km * 1.609;
+        totalDis += mi;
+        
+    }
     let hours = 0;
     let minutes = 0;
     let seconds = 0;
     let startCheck;
     let line = [];
     let timerFunctionCounter = 0; //<- so function only runs once
-    function stop() {//<- on stop button click
+    function stop() { //<- on stop button click
         startCheck = false;
         $('#stopBtn').addClass('hide')
         $('#startBtn').removeClass('hide')
     }
+
     function start() {//<- on start button click
-        if (timerFunctionCounter === 0) {//function only runsz once
+        totalDis = 0; 
+        if (timerFunctionCounter === 0) { //function only runsz once
             timer()
             timerFunctionCounter++;
         }
         startCheck = true;
         hours = 0;
-        minutes = 0;//make everything start at 0 on each run
+        minutes = 0; //make everything start at 0 on each run
         seconds = 0;
         $('#startBtn').addClass('hide')
         $('#stopBtn').removeClass('hide')
+       
+
     }
+
     function timer() {
 
 
         setInterval(function () {
+          
             if (startCheck === true) {
+                
                 document.getElementById('time').innerHTML = ''
                 document.getElementById('time').innerHTML += hours + ':' + minutes + ':' + seconds;
                 seconds++;
@@ -76,51 +105,80 @@
             }
         }, 1000)
     }
-   // if (startCheck === true) {//function runs on every location change
-        navigator.geolocation.watchPosition(pos => {
-            let m = pos.coords.longitude;
-            line.push[m  ]
-            console.log(pos.coords.longitude)
-            console.log(line)
-        }, (error) => { window.alert(error) }, { enableHighAccuracy: true })
-  //  }
-    let map = L.map('map').setView([0, 0], 2);
-    let posIcon = new L.Icon({
-        iconUrl: 'https://api.geoapify.com/v1/icon/?type=circle&color=%234f98ca&size=small&icon=Circle&iconType=awesome&iconSize=small&strokeColor=%230346ff&noWhiteCircle&apiKey=c95f29ee641d4197bb612d71b4d6c435'
-    })
     var myStyle = {
         "color": "#272727",
         "weight": 5,
         "opacity": 0.65
     };
-    /*var myLines = [{//geoJson line
-        "type": "LineString",
-        "coordinates": [
-            [-100, 40],
-            [-105, 45],
-            [-110, 55]
-        ]
-    }];
-    var linesFeatureLayer = L.geoJSON(myLines, {
-        style: myStyle
-    });*/
+
+    function createLine(lon0, lat0, lon1, lat1) //constructor to form a new line
+    {
+        this.startLon = lon0;
+        this.startLat = lat0;
+        this.endLon = lon1;
+        this.endLat = lat1;
+
+        let newLine = [{
+            "type": "LineString",
+            "coordinates": [
+                [this.startLon, this.startLat],
+                [this.endLon, this.endLat],
+            ]
+        }]
+        let newLineLayer = L.geoJSON(newLine, {
+            style: myStyle
+        })
+        newLineLayer.addTo(map)
+    }
+    //function runs on every location change
+    navigator.geolocation.watchPosition(pos => {
+
+        line.push([pos.coords.longitude, pos.coords.latitude])
+        console.log(line)
+
+        if (line.length >= 2) {
+            if (startCheck === true) {
+                new createLine(line[0][0], line[0][1], line[2][0], line[2][
+                1]); //first 2 elements are the same on every location change
+                distanceInKmBetweenEarthCoordinates(line[0][0], line[0][1], line[2][0], line[2][
+1])
+                document.getElementById('miles').innerHTML+=''
+                document.getElementById('miles').innerHTML+=totalDis
+            }
+            line.shift()
+            line.shift()
+            
+        }
+    }, (error) => {
+        window.alert(error)
+    }, {
+        enableHighAccuracy: true
+    })
+
+    let map = L.map('map').setView([0, 0], 2);
+    let posIcon = new L.Icon({
+        iconUrl: 'https://api.geoapify.com/v1/icon/?type=circle&color=%234f98ca&size=small&icon=Circle&iconType=awesome&iconSize=small&strokeColor=%230346ff&noWhiteCircle&apiKey=c95f29ee641d4197bb612d71b4d6c435'
+    })
 
 
-   // linesFeatureLayer.addTo(map);
+
+
     api_key =
         'c8ae987d039ba96d612968e4e689a032' // url = `api.openweathermap.org/data/2.5/weather?q={city name},{state}&appid=${api_key}`
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(//on page load checks if geolocation works and then gets weather data 
+        navigator.geolocation.getCurrentPosition( //on page load checks if geolocation works and then gets weather data 
             async (position) => {
+                try {
 
+                    let response = await axios.get('https://api.openweathermap.org/data/2.5/weather?lat=' +
+                        position.coords.latitude + '&lon=' + position.coords.longitude +
+                        '&appid=c8ae987d039ba96d612968e4e689a032&units=imperial');
+                    document.getElementById('weatherResults').innerHTML += response.data.name + ', ' + response
+                        .data.weather[0].main + ', ' + response.data.main.temp + '&#8457;';
 
-                let response = await axios.get('https://api.openweathermap.org/data/2.5/weather?lat=' +
-                    position.coords.latitude + '&lon=' + position.coords.longitude +
-                    '&appid=c8ae987d039ba96d612968e4e689a032&units=imperial');
-                document.getElementById('weatherResults').innerHTML += response.data.name + ', ' + response
-                    .data.weather[0].main + ', ' + response.data.main.temp + '&#8457;';
-
-
+                } catch {
+                    document.getElementById('weatherResults').innerHTML += 'Failed to get weather data'
+                }
             })
     } else {
         window.alert('Geolocation Failed!')
@@ -134,7 +192,7 @@
         zoomControl: false
 
     }).addTo(map);
-    map.locate({//always zooms in on location
+    map.locate({ //always zooms in on location
         watch: true,
         setView: true,
         maxZoom: 16

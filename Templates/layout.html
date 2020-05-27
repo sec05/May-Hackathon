@@ -145,10 +145,18 @@ table td{
             <a class="nav-link" href="/resources" style="color: white;">Resources</a>
           </li>
         </ul>
-        <a href="/signup"> <button class="btn btn"
-            style="border: none; color: white; background-color: transparent;">Sign Up</button></a>&nbsp;
-        <a href="/login"> <button class="btn btn"
-            style="border: none; color: white; background-color: transparent;">Login</button></a>
+        <li class="nav-item dropdown">
+          <a class="dropdown-toggle" id="accountDropdown" role="button"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">
+            My Account
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown"
+            style="background-color: #4f98ca; color:#4f98ca; border: 1px solid white;">
+            <a class="dropdown-item bg-transparent" href="/dashboard" style="color: white;">Profile</a>
+            <a class="dropdown-item bg-transparent" href="/settings" style="color: white;">Settings</a>
+            <a class="dropdown-item bg-transparent" href="/logout" style="color: white;">Logout</a>
+          </div>
+        </li>
       </div>
     </nav>
   </header>

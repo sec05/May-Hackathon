@@ -15,13 +15,16 @@
 
 
         .signup {
-            width: 30%;
+            position: absolute;
+            width: 40%;
+            left: 30%;
+            top: 5%;
             background-color: white;
             padding: 10px;
         }
 
         .login {
-            text-decoration: none;
+            text-decoration: bold;
             font-size: 20px;
         }
 
@@ -29,19 +32,23 @@
             background-color: red;
             color: white;
             text-align: center;
-            width: 20%;
+            width: 100%;
             z-index: 10;
             position: relative;
-            left: -2.222222%;
+            right: 9%
+        }
+
+        .dividing {
+            float: left
         }
         </style>
     </head>
     
     <body>
         <center>
-            <div class="signup" style="height: 80%;">
+            <div class="signup" style="height: 90%;">
                 <center>
-                    <p class="login" style="font-size: 250%;">Create Account </p>
+                    <p class="login" style="font-size: 200%;"><b>Create Account</b></p>
                 </center> <br>
                 <center>
                     {% with message = get_flashed_messages(with_categories = True) %}
@@ -52,23 +59,67 @@
                     </dl>
                     {% endwith %}
                     <form action="/signup" method='POST' class="ui form">
-                        <div class="field">
-                            <label style="float: left;">Username</label>
-                            <input type="text" id="username" name="username" required placeholder="Username">
+                        <h4 class="ui dividing header">Account Credentials</h4>
+                        <div class='field'>
+                            <div class='two fields'>
+                                <div class="field">
+                                    <label style="float: left;">Username</label>
+                                    <input type="text" id="username" name="username" required placeholder="Username">
+                                </div>
+                                <div class='field'>
+                                    <label style='float: left'>Email</label>
+                                    <input type='email' id='email' name='email' placeholder='Enter Email' required>
+                                </div>
+                            </div>
                         </div>
-                        <div class="field">
-                            <label style="float: left;">Password</label>
-                            <!--Code for a password requirement: pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"    title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"-->
-                            <input type="password" id="password" name="password" required placeholder="Password">
-                            <p style="font-size: 12px;">
-                                <!--Password must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters-->
-                            </p>
+                        
+                       
+                        <div class='two fields'>
+                            <div class="field">
+                                <label style="float: left;">Password</label>
+                                <!--Code for a password requirement: pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"    title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"-->
+                                <input type="password" id="password" name="password" required placeholder="Password">
+                                <p style="font-size: 12px;">
+                                    <!--Password must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters-->
+                                </p>
+                            </div>
+                            <div class="field">
+                                <label style="float: left;">Confirm Password</label>
+                                <input type="password" id="confirmPassword" name="confirmPassword" required
+                                    placeholder="Confirm password">
+                            </div>
                         </div>
-                        <div class="field">
-                            <label style="float: left;">Confirm Password</label>
-                            <input type="password" id="confirmPassword" name="confirmPassword" required
-                                placeholder="Confirm password">
+                        
+                        <h4 class="ui dividing header">Personal Info</h4>
+                        <div class='field'>
+                            <div class="two fields">
+                                <div class="field">
+                                    <label style="float: left;">First Name</label>
+                                    <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
+                                </div>
+                                <div class="field">
+                                    <label style="float: left;">Last Name</label>
+                                    <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
+                                </div>
+                            </div>
                         </div>
+
+                        <div class='two fields'>
+                            <div class='field'>
+                                <label style='float: left'>Age</label>
+                                <input type="number" size="4" name="age" min="18" required placeholder='Enter Age (must be above 18)'>
+                            </div>
+                            <div class='field'>
+                                <label style='text-align: left'>Gender</label>
+                                <select class='ui fluid search selection dropdown' id='gender' name='gender'required>
+                                    <option value="">Select a Gender</option>
+                                    <option value='M'>Male</option>
+                                    <option value='F'>Female</option>
+                                    <option valute='other'>Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        
                         <div class="three fields">
                             <div class="field">
                             <label style="float: left;">Current Weight</label>
@@ -83,7 +134,7 @@
                             <div class="field">
                             <label style="text-align: left;">Current Height</label>
                            
-                            <select class='ui fluid search selection dropdown'>
+                            <select class='ui fluid search selection dropdown' id='height' name='height' required>
                                 <option value=""> feet inches</option>
                                 <option value="4ft8in">4ft 8in</option>
                                 <option value="4ft9in">4ft 9in</option>
@@ -115,13 +166,14 @@
                         </div>
                         
                         
-                        <button class="ui button submit" onclick="check()"
+                        <button class="ui button submit" type='submit'
                             style="background-color: #4f98ca; color: white; float: right; width: 100%;">Sign Up!</button>
                     </form> <br> <br> <br>
                 </center>
                 <p>Already have an account? <a href="/login">Log in</a></p>
             </div>
         </center>
+        <script src='/static/signup.js'></script>
     </body>
     <script>$('.ui.dropdown')
         .dropdown();</script>

@@ -30,16 +30,52 @@
     </div>
 
 
-    <div id="map" style="position: absolute; margin-left:25%;margin-right:25%;width:50%;height: 70%;"></div>
+    <div id="map" style="position: absolute; margin-left:25%;margin-right:25%;width:50%;height: 70%;z-index: 10;"></div>
+    <div id="myNav" class="overlay" style="z-index: 20;">
+        <p onclick="closeNav()"> <a href="javascript:void(0)" class="closebtn">&times;</a></p>
 
+        <div class="overlay-content">
+            <main role='main'>
+                <div class='container marketing'>
+                    <h1 style=" text-align: center;">Your Run</h1>
+                    <div class="row">
+                        <div class="col-lg-6" style="float: left; text-align: center;">
+                            <h2> Time</h2>
+                            <h2 id='finalTime'></h2>
+                        </div>
+                        <div class="col-lg-6" style="float: right; text-align: center;">
+                            <h2> Distance</h2>
+                            <h2 id='finalDis'></h2>
+                        </div>
+                        <div class="col-lg-12 text-center"><br />
+                            <br /><a
+                                style="background-color:#4f98ca ; color: white ; border: 1px solid #4f98ca; font-size: 2em; width: 30%;"
+                                class="btn btn-lg btn-primary" role="button" onclick='' id='startBtn'>Save</a></div>
+                    </div>
+
+
+                </div>
+            </main>
+        </div>
+    </div>
 </main>
+
 <script>
+    function closeNav() {
+        document.getElementById("myNav").style.width = "0%";
+    }
     let totalDis = 0;
-    function degreesToRadians(degrees) {
+
+    function degreesToRadians(degrees) { //this just gets dis between 2 points in km
         return degrees * Math.PI / 180;
     }
+    Number.prototype.roundUsing = function (func, prec) {
+        var temp = this * Math.pow(10, prec)
+        temp = func(temp);
+        return temp / Math.pow(10, prec)
+    }
 
-    function distanceInKmBetweenEarthCoordinates(lat1, lon1, lat2, lon2) {//gets dis between 2 points in KM and then converts to mi
+    function distanceInKmBetweenEarthCoordinates(lat1, lon1, lat2, lon2) {
         var earthRadiusKm = 6371;
 
         var dLat = degreesToRadians(lat2 - lat1);
@@ -53,9 +89,10 @@
         var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         var Km = earthRadiusKm * c;
         var mi = Km * 1.609;
-        mi=  Math.round((mi + Number.EPSILON) * 100) / 100
-        totalDis += mi;
-        
+        mi = mi.roundUsing(Math.ceil, 2)
+        totalDis = totalDis + mi;
+        document.getElementById('miles').innerHTML = ''
+        document.getElementById('miles').innerHTML += totalDis
     }
     let hours = 0;
     let minutes = 0;
@@ -67,12 +104,16 @@
         startCheck = false;
         $('#stopBtn').addClass('hide')
         $('#startBtn').removeClass('hide')
+        document.getElementById("myNav").style.width = "100%";
+        document.getElementById('finalTime').innerHTML = ''
+        document.getElementById('finalTime').innerHTML += hours + ':' + minutes + ':' + seconds;
+        document.getElementById('finalDis').innerHTML = ''
+        document.getElementById('finalDis').innerHTML += totalDis + ' mi'
     }
 
-    function start() {//<- on start button click
-        totalDis = 0; 
-        document.getElementById('miles').innerHTML+=''
-        document.getElementById('miles').innerHTML+=0
+    function start() { //<- on start button click
+
+        totalDis = 0;
         if (timerFunctionCounter === 0) { //function only runsz once
             timer()
             timerFunctionCounter++;
@@ -83,7 +124,9 @@
         seconds = 0;
         $('#startBtn').addClass('hide')
         $('#stopBtn').removeClass('hide')
-       
+        document.getElementById('miles').innerHTML = ''
+        document.getElementById('miles').innerHTML += totalDis + ' mi'
+        map.removeLayer(createLine)
 
     }
 
@@ -91,9 +134,9 @@
 
 
         setInterval(function () {
-          
-            if (startCheck === true) {//simple timer
-                
+
+            if (startCheck === true) {
+
                 document.getElementById('time').innerHTML = ''
                 document.getElementById('time').innerHTML += hours + ':' + minutes + ':' + seconds;
                 seconds++;
@@ -108,6 +151,7 @@
             }
         }, 1000)
     }
+
     var myStyle = {
         "color": "#272727",
         "weight": 5,
@@ -142,15 +186,16 @@
         if (line.length >= 2) {
             if (startCheck === true) {
                 new createLine(line[0][0], line[0][1], line[2][0], line[2][
-                1]); //first 2 elements are the same on every location change
+                    1
+                ]); //first 2 elements are the same on every location change
                 distanceInKmBetweenEarthCoordinates(line[0][0], line[0][1], line[2][0], line[2][
-1])
-                document.getElementById('miles').innerHTML+=''
-                document.getElementById('miles').innerHTML+=totalDis
+                    1
+                ])
+
             }
             line.shift()
-            line.shift()
-            
+            //line.shift()
+
         }
     }, (error) => {
         window.alert(error)
@@ -199,7 +244,7 @@
         watch: true,
         setView: true,
         maxZoom: 16
-    }).on('locationfound', (e) => {//puts marker on users location
+    }).on('locationfound', (e) => {
         if (!this.marker) {
             this.marker = L.marker([e.latitude, e.longitude], {
                 icon: posIcon,

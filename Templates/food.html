@@ -222,7 +222,7 @@
                         else{
                             image = response.data.hints[i].food.image;
                         }
-                        document.getElementById('items').innerHTML+='<tr><td><img style="width: 50%; height: 50%;" src='+
+                        document.getElementById('items').innerHTML+='<tr><td><img style="width: 50%; height: 30%;" src='+
                         image+'></td><td>100g</td><td>'+response.data.hints[i].food.label+'</td><td>Calories: '
                         +Math.round(response.data.hints[i].food.nutrients.ENERC_KCAL)+'</td><td style="text-align:left;"> Protien:' 
                         +Math.round(response.data.hints[i].food.nutrients.PROCNT)+'g <br/>Fat: '

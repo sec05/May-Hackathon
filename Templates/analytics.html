@@ -40,9 +40,9 @@
 
     <!-- Nav Item - Charts -->
     <li class="nav-item">
-      <a class="nav-link" onclick='showExersise()' style='cursor:pointer;'>
+      <a class="nav-link" onclick='showexercise()' style='cursor:pointer;'>
         <i class="fas fa-fw  fa-running"></i>
-        <span>Exersise</span></a>
+        <span>exercise</span></a>
     </li>
 
     <!-- Nav Item - Tables -->
@@ -327,7 +327,7 @@
                 <div class="card shadow mb-4" style="height: 110% !important">
                   <!-- Card Header - Dropdown -->
                   <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary" style="color: #4f98ca !important;">Days Exersised Per
+                    <h6 class="m-0 font-weight-bold text-primary" style="color: #4f98ca !important;">Days exercised Per
                       Week</h6>
 
                   </div>
@@ -387,7 +387,7 @@
 
           }
 
-          function showExersise() {
+          function showexercise() {
             if (fdCount % 2 === 0) { //shows charts
               $('#ROT').removeClass()
               $('#EOT').removeClass()
@@ -458,7 +458,7 @@
             data: {
               labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7', 'Week 8', ],
               datasets: [{
-                label: "Days Exersised",
+                label: "Days exercised",
                 backgroundColor: ["#4f98ca", "#50d890", "#e74a3b", "#f6c23e", "#6610f2", "#fd7e14", "#e83e8c"],
 
                 data: [7, 2, 3, 5, 6, 3, 2, 1]

@@ -116,7 +116,7 @@ def credits():
     return render_template('resources.html')
 
 
-@app.route('/exersise')
+@app.route('/exercise')
 def exersise():
     return render_template('exersise.html')
 

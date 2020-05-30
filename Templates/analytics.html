@@ -5,45 +5,51 @@
 <div id="wrapper">
 
   <!-- Sidebar -->
+
   <ul class="navbar-nav  sidebar sidebar-dark accordion" id="accordionSidebar"
-    style="background-color: #4f98ca !important;">
+    style='background-color:#4f98ca !important;'>
 
     <br />
     <br />
     <br />
+
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item active">
-      <a class="nav-link" href="index.html">
-        <i class="fas fa-chart-bar"></i>
+    <li class="nav-item">
+      <a class="nav-link">
+        <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard</span></a>
     </li>
+
+
+
+
 
     <!-- Divider -->
     <hr class="sidebar-divider">
 
-
     <!-- Heading -->
-    <div class="sidebar-heading" style="color:white; font-size:12px;">
-      Trackers
+    <div class="sidebar-heading">
+      Charts
     </div>
+
 
 
 
     <!-- Nav Item - Charts -->
     <li class="nav-item">
-      <a class="nav-link"onclick='wGraphs()'>
-        <i class="fas fa-utensils"></i>
-        <span>Calories</span></a>
+      <a class="nav-link" onclick='showexercise()' style='cursor:pointer;'>
+        <i class="fas fa-fw  fa-running"></i>
+        <span>exercise</span></a>
     </li>
 
     <!-- Nav Item - Tables -->
     <li class="nav-item">
-      <a class="nav-link" href="tables.html">
-        <i class="fas fa-running"></i>
-        <span>Exersise</span></a>
+      <a class="nav-link" onclick='showFood()' style='cursor:pointer;'>
+        <i class="fas fa-fw fa-utensils"></i>
+        <span>Food</span></a>
     </li>
 
     <!-- Divider -->
@@ -52,8 +58,6 @@
 
 
   </ul>
-  <!-- End of Sidebar -->
-
   <!-- Content Wrapper -->
   <div id="content-wrapper" class="d-flex flex-column">
 
@@ -266,188 +270,247 @@
           </div>
 
           <!-- Area Chart -->
-          <div style="height: 0% ; width:0% ;overflow: hidden; transition: 0.3s;"id='WOT'>
-            <div class="col-lg-6" >
-              <div class="card shadow mb-4" style="height: 110% !important">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary" style="color: #4f98ca !important;">Current Weight Over
-                    Time</h6>
+          <div class="col-lg-6">
+            <div class="hide" id='WOT'>
+              <div class="col-lg-12">
 
+                <div class="card shadow mb-4" style="height: 110% !important">
+
+                  <!-- Card Header - Dropdown -->
+                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary" style="color: #4f98ca !important;">Current Weight Over
+                      Time</h6>
+                  </div>
+
+                  <!-- Card Body -->
+
+                  <div class="card-body">
+
+                    <div class="chart-area" style='height:90%;width:100%;'>
+                      <canvas id="WOTChart"></canvas>
+                    </div>
+                  </div>
                 </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                  <div class="chart-area">
-                    <canvas id="WOTChart"></canvas>
+
+              </div>
+
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="hide" id='CEOT'>
+              <div class="col-lg-12">
+                <div class="card shadow mb-4" style="height: 110% !important;">
+                  <!-- Card Header - Dropdown -->
+                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary" style="color: #4f98ca !important;">Calories Eaten Each Day
+                      </h6>
+
+                  </div>
+
+                  <!-- Card Body -->
+                  <div class="card-body">
+                    <div class="chart-area" style='height:90%;width:100%;'>
+                      <canvas id="CEOTChart"></canvas>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="col-lg-6">
+            <div class="hide" id='EOT'>
+              <div class="col-lg-12">
+                <div class="card shadow mb-4" style="height: 110% !important">
+                  <!-- Card Header - Dropdown -->
+                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary" style="color: #4f98ca !important;">Days exercised Per
+                      Week</h6>
+
+                  </div>
+                  <!-- Card Body -->
+                  <div class="card-body">
+                    <div class="chart-area" style='height:70%;width:100%;'>
+                      <canvas id="EOTChart"></canvas>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div style="height: 0% !important; width:0% !important;overflow: hidden;"id='CEOT'>
-            <div class="col-lg-6" >
-              <div class="card shadow mb-4" style="height: 110% !important">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary" style="color: #4f98ca !important;">Calories Eaten This
-                    Week</h6>
+          <div class="col-lg-6">
+            <div class='hide' id='ROT'>
+              <div class="col-lg-12">
+                <div class="card shadow mb-4" style="height: 110% !important">
+                  <!-- Card Header - Dropdown -->
+                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary" style="color: #4f98ca !important;">Time Spent Running Each Day
+                      Week</h6>
 
-                </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                  <div class="chart-area">
-                    <canvas id="CEOTChart"></canvas>
+                  </div>
+                  <!-- Card Body -->
+                  <div class="card-body">
+                    <div class="chart-area" style='height:90%;width:100%;'>
+                      <canvas id="ROTChart"></canvas>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div style="height: 0% ; width:0% ;overflow: hidden; transition: 0.3s;"id='EOT'>
-            <div class="col-lg-6" >
-              <div class="card shadow mb-4" style="height: 110% !important">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary" style="color: #4f98ca !important;">Days Exersised Per Week</h6>
-    
-                </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                  <div class="chart-area">
-                    <canvas id="EOTChart"></canvas>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div style="height: 0% ; width:0% ;overflow: hidden; transition: 0.3s;"id='ROT'>
-            <div class="col-lg-6" >
-              <div class="card shadow mb-4" style="height: 110% !important">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary" style="color: #4f98ca !important;">Days Exersised Per Week</h6>
-    
-                </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                  <div class="chart-area">
-                    <canvas id="ROTChart"></canvas>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-    
+
         </div>
-      </div>
 
-      
-      <script>
-        Chart.defaults.global.legend.display = false;
-        new Chart(document.getElementById("WOTChart"), {
-          type: 'line',
-          data: {
-            labels: ['January', 'Feburary', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
-              'October', 'November', 'December'
-            ],
-            datasets: [{
-              data: [200, 214, 200, 196, 190, 195, 185],
 
-              borderColor: "#3e95cd",
-              fill: false
-            }]
-          },
-          options: {
-            title: {
-              display: false,
-              text: 'Weight Over Time',
+        <script>
+          let exCount = 0;
+          let fdCount = 0;
 
-            }
-          }
-        });
-        new Chart(document.getElementById("ROTChart"), {
-          type: 'line',
-          data: {
-            labels: ['January', 'Feburary', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
-              'October', 'November', 'December'
-            ],
-            datasets: [{
-              data: [200, 214, 200, 196, 190, 195, 185],
-
-              borderColor: "#3e95cd",
-              fill: false
-            }]
-          },
-          options: {
-            title: {
-              display: false,
-              text: 'Weight Over Time',
-
-            }
-          }
-        });
-        new Chart(document.getElementById("CEOTChart"), {
-          type: 'bar',
-          data: {
-            labels: ['Sunday', 'Monday', 'Tuesday', 'Wendesday', 'Thursday', 'Friday', 'Saturday'],
-           
-            datasets: [{
-              label: "Calories Eaten",
-              backgroundColor: ["#4f98ca", "#50d890", "#e74a3b", "#f6c23e", "#6610f2", "#fd7e14", "#e83e8c"],
-              data: [2478, 2111, 2000, 1800, 2334, 1900, 2400]
-            }]
-          },
-          options: {
-            scales: {
-              yAxes: [{
-                ticks: {
-                  min: 0,
-                  max: 15,
-                  stepSize: 1
-                }
-              }],
-            },
-            legend: {
-              display: false
-            },
-
-          }
-        });
-        new Chart(document.getElementById("EOTChart"), {
-          type: 'bar',
-          data: {
-            labels: ['Week 1','Week 2','Week 3','Week 4','Week 5','Week 6','Week 7','Week 8',],
-            datasets: [{
-              label: "Days Exersised",
-              backgroundColor: ["#4f98ca", "#50d890", "#e74a3b", "#f6c23e", "#6610f2", "#fd7e14", "#e83e8c"],
+          function showFood() {
+            if (exCount % 2 === 0) { //shows charts
+              $('#WOT').removeClass()
+              $('#CEOT').removeClass()
               
-              data: [7,2,3,5,6,3,2,1]
-            }]
-          },
-          options: {
-            scales: {
-              yAxes: [{
-                ticks: {
-                  min: 1000,
-                  max: 3000,
-                  stepSize: 200
-                }
-              }],
-            },
-            legend: {
-              display: false
-            },
+              exCount++;
+            } else { //hides charts and then checks if it has to remove the space 
+              $('#WOT').addClass('hide')
+              $('#CEOT').addClass('hide')
+
+
+              exCount++;
+
+            }
 
           }
-        });
-        
-        function wGraphs(){
-          $('#WOT').css({'height':'100%','width':'50%',})
-          $('#CEOT').css({'height':'100%','width':'50%',})
-        }
-      </script>
-      <br />
-      <br />
-      <br />
 
-      {% endblock content%}
+          function showexercise() {
+            if (fdCount % 2 === 0) { //shows charts
+              $('#ROT').removeClass()
+              $('#EOT').removeClass()
+
+              fdCount++;
+            } else { //hides charts and then checks if it has to remove the space 
+              $('#ROT').addClass('hide')
+              $('#EOT').addClass('hide')
+
+
+              fdCount++;
+
+            }
+
+          }
+          Chart.defaults.global.legend.display = false;
+          new Chart(document.getElementById("WOTChart"), {
+            type: 'line',
+            data: {
+              labels: ['January', 'Feburary', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
+                'October', 'November', 'December'
+              ],
+              datasets: [{
+                data: [200, 214, 200, 196, 190, 195, 185],
+
+                borderColor: "#3e95cd",
+                fill: false
+              }]
+            },
+            options: {
+              
+              title: {
+                display: false,
+                text: 'Weight Over Time',
+
+              }
+            }
+          });
+          new Chart(document.getElementById("CEOTChart"), {
+            type: 'bar',
+            data: {
+              labels: ['Sunday', 'Monday', 'Tuesday', 'Wendesday', 'Thursday', 'Friday', 'Saturday'],
+
+              datasets: [{
+                label: "Calories Eaten",
+                backgroundColor: ["#4f98ca", "#50d890", "#e74a3b", "#f6c23e", "#6610f2", "#fd7e14", "#e83e8c"],
+                data: [2478, 2111, 2000, 1800, 2334, 1900, 2400]
+              }]
+            },
+            options: {
+              scales: {
+                yAxes: [{
+                  ticks: {
+                    min: 0,
+                    max: 5000,
+                    stepSize: 100
+                  }
+                }],
+              },
+              legend: {
+                display: false
+              },
+
+            }
+          });
+          new Chart(document.getElementById("EOTChart"), {
+            type: 'bar',
+            data: {
+              labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7', 'Week 8', ],
+              datasets: [{
+                label: "Days exercised",
+                backgroundColor: ["#4f98ca", "#50d890", "#e74a3b", "#f6c23e", "#6610f2", "#fd7e14", "#e83e8c"],
+
+                data: [7, 2, 3, 5, 6, 3, 2, 1]
+              }]
+            },
+            options: {
+              scales: {
+                yAxes: [{
+                  ticks: {
+                    min: 0,
+                    max: 7,
+                    stepSize: 1
+                  }
+                }],
+              },
+              legend: {
+                display: false
+              },
+
+            }
+          });
+          new Chart(document.getElementById("ROTChart"), {
+            type: 'line',
+            data: {
+              labels: ['day 1', 'day 2', 'day 3', 'day 4'],
+              datasets: [{
+                data: [20.0, 21.4, 20.0, 19.6, ],
+
+                borderColor: "#3e95cd",
+                fill: false
+              }]
+            },
+            options: {
+              elements: {
+                line: {
+                  tension: 0
+                }
+              },
+              title: {
+                display: false,
+                text: 'Weight Over Time',
+
+              }
+            }
+          });
+         
+         
+
+          
+        </script>
+        <br />
+        <br />
+        <br />
+
+        {% endblock content%}

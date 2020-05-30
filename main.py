@@ -28,6 +28,24 @@ class User(db.Model):
     date_created = db.Column(db.DateTime, default=datetime.now)
 
 
+class Food(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer)
+    name = db.Column(db.String(50))
+    serving = db.Column(db.Integer)
+    calories = db.Column(db.Integer)
+    macromolecules = db.Column(db.String(50))
+    date_created = db.Column(db.DateTime, default=datetime.now)
+
+class Exercise(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer)
+    name = db.Column(db.String(50))
+    sets = db.Column(db.Integer)
+    reps = db.Column(db.Integer)
+    time = db.Column(db.Integer)
+    date_created = db.Column(db.DateTime, default=datetime.now)
+
 
 #@app.before_request
 def requireLogin():

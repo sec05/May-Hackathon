@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <script src="https://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <link href="https://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.css" rel="stylesheet"/>
 </head>
 <body>
@@ -13,15 +14,22 @@
   </div>
 </body>
 <script>
-  var timepicker = new TimePicker('time', {
-  lang: 'en',
-  theme: 'dark'
-});
-timepicker.on('change', function(evt) {
+axios.post('https://trackapi.nutritionix.com/v2/natural/exercise',{
   
-  var value = (evt.hour || '00') + ':' + (evt.minute || '00');
-  evt.element.value = value;
-
-});
+  headers:{
+    'app-id':'131949ae',
+    'app-key':'7af3b585f7f85960a5cc3c7ed32a849b',
+    'Content-Type': 'application/json'
+    
+  },
+  body:{
+    "query":"ran 3 miles",
+ "gender":"female",
+ "weight_kg":72.5,
+ "height_cm":167.64,
+ "age":30
+  }
+})
+.then(response => console.log(response))
 </script>
 </html>

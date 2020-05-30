@@ -15,7 +15,7 @@
                 <h1 style="text-align: center;">-</h1>
             </div>
             <div class='col-lg-2'>
-                <h1 style="text-align: center;">0</h1>
+                <h1 style="text-align: center;" id='eatCalories'>0</h1>
                 <h4 style="text-align: center;">Food</h4>
             </div>
             <div class='col-lg-1'>
@@ -31,7 +31,7 @@
 
             </div>
             <div class='col-lg-2'>
-                <h1 style="text-align: center;">2000</h1>
+                <h1 style="text-align: center;"id='finalCalories'>2000</h1>
                 <h4 style="text-align: center;">Calories Remaining</h4>
             </div>
             <div class='col-lg-1'>
@@ -51,7 +51,7 @@
         <h2><a style="float: left;">Breakfast</a>
             <svg class="bi bi-plus-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg" style="float: right; color: #272727; cursor: pointer;"
-                onclick="openNav()">
+                onclick="openNav();Breakfast=true;Lunch=false;Dinner=false;Snacks=false;">
                 <path fill-rule="evenodd" d="M8 3.5a.5.5 0 01.5.5v4a.5.5 0 01-.5.5H4a.5.5 0 010-1h3.5V4a.5.5 0 01.5-.5z"
                     clip-rule="evenodd" />
                 <path fill-rule="evenodd" d="M7.5 8a.5.5 0 01.5-.5h4a.5.5 0 010 1H8.5V12a.5.5 0 01-1 0V8z"
@@ -60,7 +60,14 @@
                     clip-rule="evenodd" />
             </svg>
         </h2>
-        <div id='addTest'></div>
+        <br/>
+        <br/>
+        <br/>
+        <table class="addTable">
+            <tbody id='addedBreakfast'>
+
+            </tbody>
+        </table>
         <br />
         <br />
         <br />
@@ -71,7 +78,7 @@
         <h2><a style="float: left;">Lunch</a>
             <svg class="bi bi-plus-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg" style="float: right; color: #272727; cursor: pointer;"
-                onclick="openNav()">
+                onclick="openNav();Breakfast=false;Lunch=true;Dinner=false;Snacks=false;">
                 <path fill-rule="evenodd" d="M8 3.5a.5.5 0 01.5.5v4a.5.5 0 01-.5.5H4a.5.5 0 010-1h3.5V4a.5.5 0 01.5-.5z"
                     clip-rule="evenodd" />
                 <path fill-rule="evenodd" d="M7.5 8a.5.5 0 01.5-.5h4a.5.5 0 010 1H8.5V12a.5.5 0 01-1 0V8z"
@@ -80,6 +87,14 @@
                     clip-rule="evenodd" />
             </svg>
         </h2>
+        <br/>
+        <br/>
+        <br/>
+        <table class="addTable">
+            <tbody id='addedLunch'>
+
+            </tbody>
+        </table>
         <br />
         <br />
         <br />
@@ -90,7 +105,7 @@
         <h2><a style="float: left;">Dinner</a>
             <svg class="bi bi-plus-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg" style="float: right; color: #272727; cursor: pointer;"
-                onclick="openNav()">
+                onclick="openNav();Breakfast=false;Lunch=false;Dinner=true;Snacks=false;">
                 <path fill-rule="evenodd" d="M8 3.5a.5.5 0 01.5.5v4a.5.5 0 01-.5.5H4a.5.5 0 010-1h3.5V4a.5.5 0 01.5-.5z"
                     clip-rule="evenodd" />
                 <path fill-rule="evenodd" d="M7.5 8a.5.5 0 01.5-.5h4a.5.5 0 010 1H8.5V12a.5.5 0 01-1 0V8z"
@@ -99,6 +114,14 @@
                     clip-rule="evenodd" />
             </svg>
         </h2>
+        <br/>
+        <br/>
+        <br/>
+        <table class="addTable">
+            <tbody id='addedDinner'>
+
+            </tbody>
+        </table>
         <br />
         <br />
         <br />
@@ -109,7 +132,7 @@
         <h2><a style="float: left;">Snacks</a>
             <svg class="bi bi-plus-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg" style="float: right; color: #272727; cursor: pointer;"
-                onclick="openNav()">
+                onclick="openNav();Breakfast=false;Lunch=false;Dinner=false;Snacks=true;">
                 <path fill-rule="evenodd" d="M8 3.5a.5.5 0 01.5.5v4a.5.5 0 01-.5.5H4a.5.5 0 010-1h3.5V4a.5.5 0 01.5-.5z"
                     clip-rule="evenodd" />
                 <path fill-rule="evenodd" d="M7.5 8a.5.5 0 01.5-.5h4a.5.5 0 010 1H8.5V12a.5.5 0 01-1 0V8z"
@@ -118,6 +141,14 @@
                     clip-rule="evenodd" />
             </svg>
         </h2>
+        <br/>
+        <br/>
+        <br/>
+        <table class="addTable">
+            <tbody id='addedSnacks'>
+
+            </tbody>
+        </table>
         <br />
         <br />
         <br />
@@ -193,10 +224,225 @@
     
     Chart.defaults.global.defaultFontColor = 'white';
     Chart.defaults.global.defaultFontSize = 24;
+    
+    var canvas = 'pie-chart';
+    let ctx = 'pie-chart'
 
+
+
+    let calories = 0;
+    let caloriesRemaining=2000;
+    let protien =0;
+    let fat =0;
+    let carbs=0;
+    let Breakfast = false;
+    let Lunch = false;
+    let Dinner = false;
+    let Snacks = false;
+
+
+    var options = {
+        title: {
+            display: true,
+            text: 'Your Macromolecues',
+            position: 'top',
+            color: 'white',
+        },
+        rotation: -0.7 * Math.PI,
+        tooltips: {
+            enabled: false,
+        },
+
+    };
+
+
+
+    var pieChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+        labels: ["Carbohydrates", "Protiens", "Fats"],
+        datasets: [{
+            fill: true,
+            backgroundColor: [
+                'rgb(255,211,29)',
+                'rgb(214,52,71)',
+                'rgb(245,123,81)'
+            ],
+            data: [0,0,0],
+
+            borderColor: ['black', 'black', 'black'],
+            borderWidth: [2, 2, 2]
+        }]
+    },
+      
+        options: options
+    });
+    function updateChart()
+    {   
+       pieChart.data.datasets[0].data=[carbs,protien,fat];//function updates the chart data
+       pieChart.update()
+    }
+  
+  
     $('#searchForm').on('submit',function (e){
         e.preventDefault();
     })
+    function save(sElm) { //save button function
+        $(sElm).html('Edit');
+        $(sElm).attr('onclick', 'edit(this)');//changes onclick and html of save button
+        let sRow = $(sElm).closest('tr'); //gets the row  
+        let amount =parseFloat($(sRow).find('input[placeholder|=Quanity]').val())
+        if(isNaN(amount)===true)//checks if amount is a NaN
+        {
+            amount=0;
+            
+        }
+        let caloriesIA = amount * parseInt($(sRow).find('p[name="calories"]').html())
+        caloriesRemaining -= caloriesIA;//subtracts calories from total
+  
+        document.getElementById('finalCalories').innerHTML=''//updates calories remaining and total calories
+        document.getElementById('finalCalories').innerHTML+=caloriesRemaining;
+        document.getElementById('eatCalories').innerHTML=''
+        document.getElementById('eatCalories').innerHTML+=caloriesIA+calories;
+        calories+=caloriesIA;
+        protien+=parseInt($(sRow).find('a[name="protien"]').html())*amount;//gets macros in food
+        fat+=parseInt($(sRow).find('a[name="fat"]').html())*amount;
+        carbs+=parseInt($(sRow).find('a[name="carbs"]').html())*amount;
+     
+        updateChart()//updates chart
+        /*axios.post('POST URL',{
+             headers{
+            'content-type':'application-json',
+        }
+        data{
+            'username':name,
+            'protien':protien,
+            'fat':fat,
+            'carbs':carbs
+            'calories':caloriesIA
+            }
+        })*/
+        $(sRow).find('input').attr('readonly', 'readonly') //makes forms editable
+    }
+    function edit(elm) { //edit button function
+        $(elm).html('Save');
+        $(elm).attr('onclick', 'save(this)'); //makes it change to a save button
+        let row = $(elm).closest('tr'); //selects the tr
+        row.find('input').removeAttr('readonly'); //makes inputs editable
+        let amount =parseFloat($(row).find('input[placeholder|=Quanity]').val())
+        if(isNaN(amount)===true)//checks if amount is a NaN
+        {
+            amount=0;
+        }
+        let caloriesIA = amount * parseInt($(row).find('p[name="calories"]').html())
+        caloriesRemaining += caloriesIA;//subtracts calories from total
+        document.getElementById('finalCalories').innerHTML=''//updates calories remaining and total calories
+        document.getElementById('finalCalories').innerHTML+=caloriesRemaining;
+        document.getElementById('eatCalories').innerHTML=''
+        document.getElementById('eatCalories').innerHTML+=calories-caloriesIA;
+        calories-=caloriesIA
+        protien-=parseInt($(row).find('a[name="protien"]').html())*amount;//gets macros from food
+        fat-=parseInt($(row).find('a[name="fat"]').html())*amount;
+        carbs-=parseInt($(row).find('a[name="carbs"]').html())*amount;
+     
+        updateChart()
+    }
+    function deleteRow(row) {
+        let selectedRow = $(row).closest('tr'); //selects row
+        let amount =parseFloat($(selectedRow).find('input[placeholder|=Quanity]').val())
+        if(isNaN(amount)===true)//checks if amount is a NaN
+        {
+            amount=0;
+        }
+        let caloriesIA = amount * parseInt($(selectedRow).find('p[name="calories"]').html())
+        caloriesRemaining += caloriesIA;//subtracts calories from total
+        document.getElementById('finalCalories').innerHTML=''//updates calories remaining and total calories
+        document.getElementById('finalCalories').innerHTML+=caloriesRemaining;
+        document.getElementById('eatCalories').innerHTML=''
+        document.getElementById('eatCalories').innerHTML+=calories-caloriesIA;
+        calories-=caloriesIA
+        protien-=parseInt($(selectedRow).find('a[name="protien"]').html())*amount;//gets macros from food
+        fat-=parseInt($(selectedRow).find('a[name="fat"]').html())*amount;
+        carbs-=parseInt($(selectedRow).find('a[name="carbs"]').html())*amount;
+     
+        updateChart()
+      /*axios.post('POST URL',{
+           headers{
+            'content-type':'application-json',
+        }
+        data{
+            'username':name,
+            'protien':protien,
+            'fat':fat,
+            'carbs':carbs
+            'calories':caloriesIA
+            }
+        })*/
+        $(selectedRow).remove(); //deletes it
+
+    }
+    function addEx(element){
+       
+        if(Breakfast===true)//checks to see which plus was clicked on
+        {
+            var elm = '#addedBreakfast'
+        }
+        if(Lunch===true)
+        {
+            var elm = '#addedLunch'
+        }
+        if(Dinner===true)
+        {
+            var elm = '#addedDinner'
+        }
+        if(Snacks===true)
+        {
+            var elm = '#addedSnacks'
+        }
+        let original = $(element).closest('tr'); //gets closest parent to the addbutton
+        let movedOriginal = $(original).clone(); //clones selected item
+        $(movedOriginal).find('input').css('color', '#272727').attr('readonly', 'readonly'); //makes forms un editable
+        let amount =parseFloat($(movedOriginal).find('input[placeholder|=Quanity]').val())
+        if(isNaN(amount)===true)//checks if amount is a NaN
+        {
+            amount=0;
+            
+        }
+        let caloriesIA = amount * parseInt($(movedOriginal).find('p[name="calories"]').html())
+        caloriesRemaining -= caloriesIA;//subtracts calories from total
+  
+        document.getElementById('finalCalories').innerHTML=''//updates calories remaining and total calories
+        document.getElementById('finalCalories').innerHTML+=caloriesRemaining;
+        document.getElementById('eatCalories').innerHTML=''
+        document.getElementById('eatCalories').innerHTML+=caloriesIA+calories;
+        calories+=caloriesIA;
+        $(movedOriginal).find('a[name="firstBtn"]').html('Delete').css({ //changes css for delete button
+            'background-color': '#e74a3b',
+            'border': '1px solid #e74a3b'
+        }).attr('onclick', 'deleteRow(this)');
+        $('<a name="editBtn" onclick="edit(this)" id="addBtn" Class="btn btn-primary btn-primary"style=" border-radius: 10px;display: inline; background-color: #4f98ca; color: white; border: 1px solid #4f98ca;">Edit</a>')
+            .insertAfter($(movedOriginal).find('b')); //inserts edit button in p tag
+        protien+=parseInt($(movedOriginal).find('a[name="protien"]').html())*amount;//gets marcos of food
+        fat+=parseInt($(movedOriginal).find('a[name="fat"]').html())*amount;
+        carbs+=parseInt($(movedOriginal).find('a[name="carbs"]').html())*amount;
+     
+        updateChart()
+        $(movedOriginal).appendTo($(elm)); //adds it to the DOM
+  /*axios.post('POST URL',{
+       headers{
+            'content-type':'application-json',
+        }
+        data{
+            'username':name,
+            'protien':protien,
+            'fat':fat,
+            'carbs':carbs
+            'calories':caloriesIA
+            }
+        })*/
+        
+    }
+
     function getFood() {
         let app_id = 'd6436c7d';
         let api_key = '85d45512856b5726d15cdfa3094c8882';
@@ -222,13 +468,14 @@
                         else{
                             image = response.data.hints[i].food.image;
                         }
-                        document.getElementById('items').innerHTML+='<tr><td><img style="width: 50%; height: 30%;" src='+
-                        image+'></td><td>100g</td><td>'+response.data.hints[i].food.label+'</td><td>Calories: '
-                        +Math.round(response.data.hints[i].food.nutrients.ENERC_KCAL)+'</td><td style="text-align:left;"> Protien:' 
-                        +Math.round(response.data.hints[i].food.nutrients.PROCNT)+'g <br/>Fat: '
-                        +Math.round(response.data.hints[i].food.nutrients.FAT)+'g <br/>Carbohydrates: '+
-                        Math.round(response.data.hints[i].food.nutrients.CHOCDF)+'g</td><td><form class="form-inline d-flex justify-content-center md-form form-sm mt-0">'
-                        +'<input  class="form-control form-control-sm ml-3 " type="number"placeholder="Quanity" aria-label="Search"style="background-color: transparent; color: white; width:30%; border-bottom:1px solid white; display: inline;"> &emsp14;<a class="btn btn-primary btn-primary"style=" border-radius: 10px;display: inline; background-color: #4f98ca; color: white; border: 1px solid #4f98ca;">Add</a></form></td></tr><hr class="featurette-divider">'
+                     
+                        document.getElementById('items').innerHTML+='<tr "><td><img style="width: 50%; height: 30%;" src='+
+                        image+'></td><td>100g</td><td>'+response.data.hints[i].food.label+'</td><td>Calories: <p name="calories">'
+                        +Math.round(response.data.hints[i].food.nutrients.ENERC_KCAL)+'</p></td><td style="text-align:left;"> Protien: <a name="protien">'
+                        +Math.round(response.data.hints[i].food.nutrients.PROCNT)+'</a>g <br/>Fat: <a name="fat">'
+                        +Math.round(response.data.hints[i].food.nutrients.FAT)+'</a>g <br/>Carbohydrates: <a name="carbs">'+
+                        Math.round(response.data.hints[i].food.nutrients.CHOCDF)+'</a>g</td><td><form class="form-inline d-flex justify-content-center md-form form-sm mt-0">'
+                        +'<input  class="form-control form-control-sm ml-3 " type="number"placeholder="Quanity" aria-label="Search"style="background-color: transparent; color: white; width:30%; border-bottom:1px solid white; display: inline;"> &emsp14;<a name="firstBtn" onclick="addEx(this);closeNav();" class="btn btn-primary btn-primary"style=" border-radius: 10px;display: inline; background-color: #4f98ca; color: white; border: 1px solid #4f98ca;">Add</a><b></b></form></td></tr><hr class="featurette-divider">'
                     
                     }
                 
@@ -265,49 +512,6 @@
 
     }
 
-    var canvas = 'pie-chart';
-    let ctx = 'pie-chart'
-
-
-
-    var data = {
-        labels: ["Carbohydrates", "Protiens", "Lipids"],
-        datasets: [{
-            fill: true,
-            backgroundColor: [
-                'rgb(255,211,29)',
-                'rgb(214,52,71)',
-                'rgb(245,123,81)'
-            ],
-            data: [25, 25, 50],
-
-            borderColor: ['black', 'black', 'black'],
-            borderWidth: [2, 2, 2]
-        }]
-    };
-
-
-    var options = {
-        title: {
-            display: true,
-            text: 'Your Macromolecues',
-            position: 'top',
-            color: 'white',
-        },
-        rotation: -0.7 * Math.PI,
-        tooltips: {
-            enabled: false,
-        },
-
-    };
-
-
-
-    var myBarChart = new Chart(ctx, {
-        type: 'pie',
-        data: data,
-        options: options
-    });
 </script>
 
 {% endblock content%}

@@ -12,9 +12,9 @@
 
             </div>
             <div class="col-lg-4 text-center">
-                <a style="background-color:#4f98ca ; color: white ; border: 1px solid #4f98ca; font-size: 2em; width: 105%;"
+                <a style="background-color:#4f98ca ; color: white ; border: 1px solid #4f98ca; font-size: 2em; width: 105%;position: absolute;left: 0%;"
                     class="btn btn-lg btn-primary" role="button" onclick='start()' id='startBtn'>Start</a>
-                <a style="background-color:red ; color: white ; border: 1px solid red; font-size: 2em; width: 105%;"
+                <a style="background-color:red ; color: white ; border: 1px solid red; font-size: 2em; width: 105%;position: absolute;left: 0%;"
                     class="hide btn btn-lg btn-primary" role="button" onclick='stop()' id='stopBtn'>Stop</a>
             </div>
             <div class="col-lg-4" style="float: right; text-align: center;">
@@ -39,18 +39,28 @@
                 <div class='container marketing'>
                     <h1 style=" text-align: center;">Your Run</h1>
                     <div class="row">
-                        <div class="col-lg-6" style="float: left; text-align: center;">
+                        <div class="col-lg-3" style="float: left; text-align: center;">
                             <h2> Time</h2>
                             <h2 id='finalTime'></h2>
                         </div>
-                        <div class="col-lg-6" style="float: right; text-align: center;">
+                        <div class="col-lg-3" style="float: left; text-align: center;">
+                            <h2> Pace</h2>
+                            <h2 id='pace'></h2>
+                        </div>
+                        <div class="col-lg-3" style="float: right; text-align: center;">
                             <h2> Distance</h2>
                             <h2 id='finalDis'></h2>
+                            
+                        </div>
+                        <div class="col-lg-3" style="float: right; text-align: center;">
+                            <h2> Calories</h2>
+                            <h2 id='calories'></h2>
+                            
                         </div>
                         <div class="col-lg-12 text-center"><br />
                             <br /><a
                                 style="background-color:#4f98ca ; color: white ; border: 1px solid #4f98ca; font-size: 2em; width: 30%;"
-                                class="btn btn-lg btn-primary" role="button" onclick='' id='startBtn'>Save</a></div>
+                                class="btn btn-lg btn-primary" role="button" onclick='saveRun()' id='startBtn'>Save</a></div>
                     </div>
 
 
@@ -61,6 +71,15 @@
 </main>
 
 <script>
+    let lines =new L.layerGroup()
+    function saveRun(){
+        /* axios.post('POST URL',{
+            hour:hours,
+            min:minutes,
+            sec:seconds,
+            dis:totalDis,
+        })*/
+    }
     function closeNav() {
         document.getElementById("myNav").style.width = "0%";
     }
@@ -104,15 +123,27 @@
         startCheck = false;
         $('#stopBtn').addClass('hide')
         $('#startBtn').removeClass('hide')
-        document.getElementById("myNav").style.width = "100%";
+        let time = hours+(minutes/60)+(seconds/3600)//coverts time to calculater average dis
+        let pace = totalDis/time
+        if(isNaN(pace))
+        {
+            pace =0;
+        }
+        //let caloriesBurned = ((weight/2.2)*6)/time needs weight from server
+        document.getElementById('pace').innerHTML = ''
+        document.getElementById('pace').innerHTML +=pace
+        //document.getElementById('calories').innerHTML=''
+         //document.getElementById('calories').innerHTML=caloriesBurned
         document.getElementById('finalTime').innerHTML = ''
         document.getElementById('finalTime').innerHTML += hours + ':' + minutes + ':' + seconds;
         document.getElementById('finalDis').innerHTML = ''
         document.getElementById('finalDis').innerHTML += totalDis + ' mi'
+        document.getElementById("myNav").style.width = "100%";
     }
 
     function start() { //<- on start button click
-
+       
+        map.removeLayer(lines)
         totalDis = 0;
         if (timerFunctionCounter === 0) { //function only runsz once
             timer()
@@ -126,7 +157,7 @@
         $('#stopBtn').removeClass('hide')
         document.getElementById('miles').innerHTML = ''
         document.getElementById('miles').innerHTML += totalDis + ' mi'
-        map.removeLayer(createLine)
+        
 
     }
 
@@ -175,7 +206,8 @@
         let newLineLayer = L.geoJSON(newLine, {
             style: myStyle
         })
-        newLineLayer.addTo(map)
+        lines.addLayer(newLineLayer);
+        lines.addTo(map)
     }
     //function runs on every location change
     navigator.geolocation.watchPosition(pos => {

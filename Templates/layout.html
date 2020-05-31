@@ -171,14 +171,14 @@ cursor: pointer;
             <a class="nav-link" href="/resources" style="color: white;">Resources</a>
           </li>
         </ul>
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown" style='padding-right: 15px;'>
           <a class="dropdown-toggle" id="accountDropdown" role="button"
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">
             My Account
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown"
             style="background-color: #4f98ca; color:#4f98ca; border: 1px solid white;">
-            <a class="dropdown-item bg-transparent" href="/dashboard" style="color: white;">Profile</a>
+            <a class="dropdown-item bg-transparent" href="/analytics" style="color: white;">Profile</a>
             <a class="dropdown-item bg-transparent" href="/settings" style="color: white;">Settings</a>
             <a class="dropdown-item bg-transparent" href="/logout" style="color: white;">Logout</a>
           </div>
@@ -232,6 +232,48 @@ cursor: pointer;
       stickyFooter();
     });
   });
+
+  
+    
+    function decode_flask_cookie(val) {
+      if (val.indexOf('\\') === -1) {
+        return val;  // not encoded
+      }
+      val = val.slice(1, -1).replace(/\\"/g, '"');
+      val = val.replace(/\\(\d{3})/g, function (match, octal) {
+        return String.fromCharCode(parseInt(octal, 8));
+      });
+      return val.replace(/\\\\/g, '\\');
+    }
+  
+    // read and get specific cookie under 'name'
+    function getCookie(cname) {
+      var name = cname + "=";
+      var decodedCookie = decodeURIComponent(document.cookie);
+      var ca = decodedCookie.split(';');
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    }
+  
+    function capitalize_Words(str) {
+      return str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
+    }
+  
+    cookies = document.cookie;
+    name = decode_flask_cookie(getCookie('Name'));
+    console.log(name)
+    document.getElementById('accountDropdown').innerHTML = capitalize_Words(name);
+  
+  
 </script>
 
 </html>

@@ -63,9 +63,22 @@
         <br/>
         <br/>
         <br/>
-        <table class="addTable">
+        <table class="addTable"style=" border: none; color: Black; width: 100%;table-layout: fixed;">
             <tbody id='addedBreakfast'>
-
+                <thead>
+                    <tr style="border-bottom:1px solid white;">
+                      <th>Image</th>
+                      <th>Amount</th>
+                      <th>Name</th>
+                      <th>Calories</th>
+                      <th>Macros</th>
+                      <th style="width: 30%; text-align: center;">Settings</th>
+                    
+                      
+                    </tr>
+                
+                   
+                  </thead>
             </tbody>
         </table>
         <br />
@@ -90,9 +103,22 @@
         <br/>
         <br/>
         <br/>
-        <table class="addTable">
+        <table class="addTable"style=" border: none; color: black; width: 100%;table-layout: fixed;">
             <tbody id='addedLunch'>
-
+                <thead>
+                    <tr style="border-bottom:1px solid white;">
+                      <th>Image</th>
+                      <th>Amount</th>
+                      <th>Name</th>
+                      <th>Calories</th>
+                      <th>Macros</th>
+                      <th style="width: 30%; text-align: center;">Settings</th>
+                  
+                      
+                    </tr>
+                
+                   
+                  </thead>
             </tbody>
         </table>
         <br />
@@ -117,9 +143,22 @@
         <br/>
         <br/>
         <br/>
-        <table class="addTable">
+        <table class="addTable"style=" border: none; color: black; width: 100%;table-layout: fixed;">
             <tbody id='addedDinner'>
-
+                <thead>
+                    <tr style="border-bottom:1px solid white;">
+                      <th>Image</th>
+                      <th>Amount</th>
+                      <th>Name</th>
+                      <th>Calories</th>
+                      <th>Macros</th>
+                      <th style="width: 30%; text-align: center;">Settings</th>
+                  
+                      
+                    </tr>
+                
+                   
+                  </thead>
             </tbody>
         </table>
         <br />
@@ -144,9 +183,22 @@
         <br/>
         <br/>
         <br/>
-        <table class="addTable">
+        <table class="addTable"style=" border: none; color: black; width: 100%;table-layout: fixed;">
             <tbody id='addedSnacks'>
-
+                <thead>
+                    <tr style="border-bottom:1px solid white;">
+                      <th>Image</th>
+                      <th>Amount</th>
+                      <th>Name</th>
+                      <th>Calories</th>
+                      <th>Macros</th>
+                      <th style="width: 30%; text-align: center;">Settings</th>
+              
+                      
+                    </tr>
+                
+                   
+                  </thead>
             </tbody>
         </table>
         <br />
@@ -187,8 +239,8 @@
                                       <th>Name</th>
                                       <th>Calories</th>
                                       <th>Macros</th>
-                                      <th>Add</th>
-                                      <hr class="featurette-divider">
+                                      <th style="width: 30%; text-align: center;">Settings</th>
+                                      
                                       
                                     </tr>
                                 
@@ -221,7 +273,7 @@
 </div>
 </main>
 <script>
-    
+
     Chart.defaults.global.defaultFontColor = 'white';
     Chart.defaults.global.defaultFontSize = 24;
     
@@ -342,10 +394,6 @@
         }
         let caloriesIA = amount * parseInt($(row).find('p[name="calories"]').html())
         caloriesRemaining += caloriesIA;//subtracts calories from total
-        document.getElementById('finalCalories').innerHTML=''//updates calories remaining and total calories
-        document.getElementById('finalCalories').innerHTML+=caloriesRemaining;
-        document.getElementById('eatCalories').innerHTML=''
-        document.getElementById('eatCalories').innerHTML+=calories-caloriesIA;
         calories-=caloriesIA
         protein-=parseInt($(row).find('a[name="protein"]').html())*amount;//gets macros from food
         fat-=parseInt($(row).find('a[name="fat"]').html())*amount;
@@ -574,7 +622,7 @@
                 +Math.round(myJson[`Food ${i+1}`][5])+'</a>g <br/>Fat: <a name="fat">'
                 +Math.round(myJson[`Food ${i+1}`][6])+'</a>g <br/>Carbohydrates: <a name="carbs">'+
                 Math.round(myJson[`Food ${i+1}`][7])+'</a>g</td><td><form class="form-inline d-flex justify-content-center md-form form-sm mt-0">'
-                +'<input  class="form-control form-control-sm ml-3 quantity" readonly=readonly type="number" placeholder="Quanity" aria-label="Search"style="background-color: transparent; color: black; width:30%; border-bottom:1px solid white; display: inline;"> &emsp14; <a name="editBtn" onclick="edit(this)" Class="btn btn-primary btn-primary"style=" border-radius: 10px;display: inline; background-color: #4f98ca; color: white; border: 1px solid #4f98ca;">Edit</a> &emsp14; <a name="deleteBtn" onclick="deleteRow(this)" class="btn btn-primary btn-primary"style=" border-radius: 10px;display: inline; background-color: #e74a3b; color: white; border: 1px solid #e74a3b;">Delete</a><b></b></form></td></tr><hr class="featurette-divider">'
+                +'<input  class="form-control form-control-sm ml-3 quantity" readonly=readonly type="number" placeholder="Quanity" aria-label="Search"style="background-color: transparent; color: black; width:30%; border-bottom:1px solid white; display: inline;"> &ensp; <a name="deleteBtn" onclick="deleteRow(this)" class="btn btn-primary btn-primary"style=" border-radius: 10px;display: inline; background-color: #e74a3b; color: white; border: 1px solid #e74a3b;">Delete</a>&emsp14; <a name="editBtn" onclick="edit(this)" Class="btn btn-primary btn-primary"style=" border-radius: 10px;display: inline; background-color: #4f98ca; color: white; border: 1px solid #4f98ca;">Edit</a> &emsp14; <b></b></form></td></tr>'
                 
                 $(row).appendTo($(elm))
                 console.log(document.getElementsByName('deleteBtn'))
@@ -582,7 +630,18 @@
                 document.getElementsByClassName('quantity')[i].value = myJson[`Food ${i+1}`][3]
                 document.getElementsByName('editBtn')[i].setAttribute('id', myJson[`Food ${i+1}`][0])
                 document.getElementsByName('deleteBtn')[i].setAttribute('id', myJson[`Food ${i+1}`][0])
-                    
+                protein+=Math.round(myJson[`Food ${i+1}`][5])*myJson[`Food ${i+1}`][3];//gets marcos of food
+                fat+=Math.round(myJson[`Food ${i+1}`][6])*myJson[`Food ${i+1}`][3];
+                carbs+=Math.round(myJson[`Food ${i+1}`][7])*myJson[`Food ${i+1}`][3]; 
+                updateChart()
+              
+                caloriesRemaining -= Math.round(myJson[`Food ${i+1}`][4]);//subtracts calories from total
+  
+                document.getElementById('finalCalories').innerHTML=''//updates calories remaining and total calories
+                document.getElementById('finalCalories').innerHTML+=caloriesRemaining;
+                document.getElementById('eatCalories').innerHTML=''
+                document.getElementById('eatCalories').innerHTML+=Math.round(myJson[`Food ${i+1}`][4])+calories;
+                calories+=Math.round(myJson[`Food ${i+1}`][4]);
             }
         }
     })

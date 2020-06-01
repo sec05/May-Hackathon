@@ -1,4 +1,4 @@
-from flask import Flask, render_template, session, request, flash, redirect
+from flask import Flask, render_template, session, request, flash, redirect, make_response
 from flask_sqlalchemy import SQLAlchemy
 from hashpassword import makePasswordHash, checkPasswordHash
 import json
@@ -47,7 +47,7 @@ class Exercise(db.Model):
     date_created = db.Column(db.DateTime, default=datetime.now)
 
 
-#@app.before_request
+@app.before_request
 def requireLogin():
     allowed_routes = ['login', 'signup']
     if request.endpoint not in allowed_routes and 'username' not in session:
@@ -55,9 +55,14 @@ def requireLogin():
         return redirect('/login') 
 
 
-@app.route('/')
+@app.route('/', methods = ['GET', 'POST'])
 def index():
-    return render_template('home.html')
+    if request.method == 'POST':
+        data = request.json
+    else:
+        resp = make_response(render_template('home.html'))
+        resp.set_cookie('Name', str(session['lastname'] + ', ' + session['firstname']))
+        return resp
 
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
@@ -70,6 +75,8 @@ def login():
         if user:
             if checkPasswordHash(password, user.password):
                 session['username'] = username
+                session['firstname'] = user.firstname
+                session['lastname'] = user.lastname
                 return redirect('/')
             else:
                 flash('The user doesn\'t exist or the password provided was incorrect', 'error')
@@ -90,12 +97,14 @@ def signup():
         password = data['password']
         confirmPassword = data['confirmPassword']
         if password == confirmPassword:
-            matchingUsernames = db.session.query(User).filter(User.username==username).first()
+            matchingUsernames = False
+            #matchingUsernames = db.session.query(User).filter(User.username==username).first()
             if matchingUsernames:
                 flash('Username already exists!', 'error')
                 return redirect('/signup')
             else:
-                matchingEmail = db.session.query(User).filter(User.email==email).first()
+                matchingEmail = False
+                #matchingEmail = db.session.query(User).filter(User.email==email).first()
                 if matchingEmail:
                     flash('Email is already registered with another account!', 'error')
                     return redirect('/signup')
@@ -114,7 +123,8 @@ def signup():
                     #db.session.commit()
 
                     session['username'] = username
-                    flash('Logged in', 'success')
+                    session['firstname'] = firstname
+                    session['lastname'] = lastname
                     return redirect('/')
 
         else:
@@ -127,6 +137,8 @@ def signup():
 @app.route('/logout')
 def logout():
     session.pop('username', None)
+    session.pop('firstname', None)
+    session.pop('lastname', None)
     return redirect('/login')
 
 @app.route('/resources')

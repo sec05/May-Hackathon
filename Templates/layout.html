@@ -24,6 +24,8 @@
       integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
       crossorigin=""></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 </head>
 <style>
   body {
@@ -171,18 +173,26 @@ cursor: pointer;
             <a class="nav-link" href="/resources" style="color: white;">Resources</a>
           </li>
         </ul>
-        <li class="nav-item dropdown" style='padding-right: 15px;'>
+        <ul class="nav-item dropdown" style='padding-right: 15px; padding-top: 10px;'>
           <a class="dropdown-toggle" id="accountDropdown" role="button"
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">
-            My Account
+            <span class='person'></span>
+            <span class='text' id='username'>My Account</span>
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown"
             style="background-color: #4f98ca; color:#4f98ca; border: 1px solid white;">
-            <a class="dropdown-item bg-transparent" href="/analytics" style="color: white;">Profile</a>
-            <a class="dropdown-item bg-transparent" href="/settings" style="color: white;">Settings</a>
-            <a class="dropdown-item bg-transparent" href="/logout" style="color: white;">Logout</a>
+            <a class="dropdown-item bg-transparent" href="/dashboard" style="color: white;">
+              <span class='fa fa-male' style='padding-right: 10px; font-size: 20px;'></span>
+              Profile
+            </a>
+            <a class="dropdown-item bg-transparent" href="/settings" style="color: white;">
+              <span class='fa fa-gears' style='padding-right: 10px;'></span>
+              Settings</a>
+            <a class="dropdown-item bg-transparent" href="/logout" style="color: white;">
+              <span class='	fa fa-sign-out' style='padding-right: 10px;'></span>
+              Logout</a>
           </div>
-        </li>
+        </ul>
       </div>
     </nav>
   </header>
@@ -270,8 +280,7 @@ cursor: pointer;
   
     cookies = document.cookie;
     name = decode_flask_cookie(getCookie('Name'));
-    console.log(name)
-    document.getElementById('accountDropdown').innerHTML = capitalize_Words(name);
+    document.getElementById('username').innerHTML = capitalize_Words(name);
   
   
 </script>

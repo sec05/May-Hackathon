@@ -8,7 +8,7 @@
 
         <div class='row row-eq-height'>
             <div class='col-lg-4'>
-                <h1 style="text-align: center;">Time Exersising:</h1>
+                <h1 style="text-align: center;">Time Exercising:</h1>
 
             </div>
 
@@ -32,7 +32,7 @@
         <br />
 
 
-        <h2><a style='float:left;'>exercises </a>
+        <h2><a style='float:left;'>Exercises </a>
             
             <svg class="bi bi-plus-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg" style="float: right; color: #272727; cursor: pointer;"
@@ -162,7 +162,7 @@
         document.getElementById('totalSets').innerHTML=sets
         document.getElementById('totalReps').innerHTML=''
         document.getElementById('totalReps').innerHTML=reps
-        let time=(hr/60)+min
+        let time=(hr*60)+min
     /*    axios.post('POST URL',{
         headers{
             'content-type':'application-json',
@@ -242,7 +242,7 @@
         document.getElementById('totalSets').innerHTML=sets
         document.getElementById('totalReps').innerHTML=''
         document.getElementById('totalReps').innerHTML=reps
-        let time=(hr/60)+min
+        let time=(hr*60)+min
     /*    axios.post('POST URL',{
         headers{
             'content-type':'application-json',
@@ -264,11 +264,12 @@
         
         let original = $(element).closest('tr'); //gets closest parent to the addbutton
         let movedOriginal = $(original).clone(); //clones selected item
-        let name = console.log($(movedOriginal).find('h3').html())
+        let name = $(movedOriginal).find('h3').html()
         let hr = parseFloat($(movedOriginal).find('input[placeholder|=hr]').val());
         let min = parseFloat($(movedOriginal).find('input[placeholder|=min]').val()); //gets values of min and hr input forms
         let iReps = parseFloat($(movedOriginal).find('input[placeholder|=Reps]').val());
         let iSets = parseFloat($(movedOriginal).find('input[placeholder|=Sets]').val());//gets stes and reps values from form
+        let time
         if (!isNaN(iReps) && iReps != null) //checks if values are NaN or Null
         {
             reps += iReps;
@@ -293,20 +294,25 @@
         document.getElementById('totalSets').innerHTML=sets
         document.getElementById('totalReps').innerHTML=''
         document.getElementById('totalReps').innerHTML=reps
-        let time=(hr/60)+min
-    /*    axios.post('POST URL',{
-        headers{
-            'content-type':'application-json',
+        if (hr > 0) {
+            time = min += hr*60
         }
-        data{
+        else {
+            time = min
+        }
+    
+        axios.post('/exercise',{
+        headers: {
+            'content-type':'application-json',
+        },
+        data: {
             'exercise':name,
-            'time':time
+            'time': time,
             'numReps':iReps,
             'numSets':iSets,
-            'delete':false,
-            'edit':false,
             }
-        })*/
+        })
+
         $(movedOriginal).find('a').html('Delete').css({ //changes css 
             'background-color': '#e74a3b',
             'border': '1px solid #e74a3b'
@@ -387,5 +393,20 @@
         e.preventDefault();
     })
     getexercises()
+
+    
+    fetch('/api/exercise')
+    .then(function(response) {
+        response.json();
+    })
+    .then(function(myJson) {
+        if (Object.keys(myJson).length != 0) {
+            for(i=0; i<Object.keys(myJson).length; i++) {
+            
+            }
+        }
+    })
+
+
 </script>
 {%endblock content%}

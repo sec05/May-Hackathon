@@ -232,13 +232,14 @@
 
     let calories = 0;
     let caloriesRemaining=2000;
-    let protien =0;
+    let protein =0;
     let fat =0;
     let carbs=0;
     let Breakfast = false;
     let Lunch = false;
     let Dinner = false;
     let Snacks = false;
+    let currentSection;
 
 
     var options = {
@@ -260,7 +261,7 @@
     var pieChart = new Chart(ctx, {
         type: 'pie',
         data: {
-        labels: ["Carbohydrates", "Protiens", "Fats"],
+        labels: ["Carbohydrates", "proteins", "Fats"],
         datasets: [{
             fill: true,
             backgroundColor: [
@@ -279,7 +280,7 @@
     });
     function updateChart()
     {   
-       pieChart.data.datasets[0].data=[carbs,protien,fat];//function updates the chart data
+       pieChart.data.datasets[0].data=[carbs,protein,fat];//function updates the chart data
        pieChart.update()
     }
   
@@ -290,7 +291,8 @@
     function save(sElm) { //save button function
         $(sElm).html('Edit');
         $(sElm).attr('onclick', 'edit(this)');//changes onclick and html of save button
-        let sRow = $(sElm).closest('tr'); //gets the row  
+        let sRow = $(sElm).closest('tr');
+        let name = $(sRow).find('h3').html()  
         let amount =parseFloat($(sRow).find('input[placeholder|=Quanity]').val())
         if(isNaN(amount)===true)//checks if amount is a NaN
         {
@@ -305,23 +307,27 @@
         document.getElementById('eatCalories').innerHTML=''
         document.getElementById('eatCalories').innerHTML+=caloriesIA+calories;
         calories+=caloriesIA;
-        protien+=parseInt($(sRow).find('a[name="protien"]').html())*amount;//gets macros in food
+        protein+=parseInt($(sRow).find('a[name="protein"]').html())*amount;//gets macros in food
         fat+=parseInt($(sRow).find('a[name="fat"]').html())*amount;
         carbs+=parseInt($(sRow).find('a[name="carbs"]').html())*amount;
      
         updateChart()//updates chart
-        /*axios.post('POST URL',{
-             headers{
-            'content-type':'application-json',
-        }
-        data{
-            'username':name,
-            'protien':protien,
+
+        fetch('/api/foodedit', {
+            method: 'POST',
+            headers: {
+    'Content-Type': 'application/json'},
+            body: JSON.stringify({
+            'id': sElm.id,
+            'serving': amount,
+            'protein':protein,
             'fat':fat,
-            'carbs':carbs
+            'carbs':carbs,
             'calories':caloriesIA
-            }
-        })*/
+            })
+        })
+
+
         $(sRow).find('input').attr('readonly', 'readonly') //makes forms editable
     }
     function edit(elm) { //edit button function
@@ -341,11 +347,12 @@
         document.getElementById('eatCalories').innerHTML=''
         document.getElementById('eatCalories').innerHTML+=calories-caloriesIA;
         calories-=caloriesIA
-        protien-=parseInt($(row).find('a[name="protien"]').html())*amount;//gets macros from food
+        protein-=parseInt($(row).find('a[name="protein"]').html())*amount;//gets macros from food
         fat-=parseInt($(row).find('a[name="fat"]').html())*amount;
         carbs-=parseInt($(row).find('a[name="carbs"]').html())*amount;
      
         updateChart()
+      
     }
     function deleteRow(row) {
         let selectedRow = $(row).closest('tr'); //selects row
@@ -361,23 +368,21 @@
         document.getElementById('eatCalories').innerHTML=''
         document.getElementById('eatCalories').innerHTML+=calories-caloriesIA;
         calories-=caloriesIA
-        protien-=parseInt($(selectedRow).find('a[name="protien"]').html())*amount;//gets macros from food
+        protein-=parseInt($(selectedRow).find('a[name="protein"]').html())*amount;//gets macros from food
         fat-=parseInt($(selectedRow).find('a[name="fat"]').html())*amount;
         carbs-=parseInt($(selectedRow).find('a[name="carbs"]').html())*amount;
      
         updateChart()
-      /*axios.post('POST URL',{
-           headers{
-            'content-type':'application-json',
-        }
-        data{
-            'username':name,
-            'protien':protien,
-            'fat':fat,
-            'carbs':carbs
-            'calories':caloriesIA
-            }
-        })*/
+        
+        
+        fetch('/api/fooddelete', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'},
+            body: JSON.stringify(row.id)
+        })
+
+
         $(selectedRow).remove(); //deletes it
 
     }
@@ -386,21 +391,27 @@
         if(Breakfast===true)//checks to see which plus was clicked on
         {
             var elm = '#addedBreakfast'
+            currentSection = 'B'
         }
         if(Lunch===true)
         {
             var elm = '#addedLunch'
+            currentSection = 'L'
         }
         if(Dinner===true)
         {
             var elm = '#addedDinner'
+            currentSection = 'D'
         }
         if(Snacks===true)
         {
             var elm = '#addedSnacks'
+            currentSection = 'S'
         }
         let original = $(element).closest('tr'); //gets closest parent to the addbutton
         let movedOriginal = $(original).clone(); //clones selected item
+        let name = $(movedOriginal).find('p[name="foodname"').html()
+        let image = $(movedOriginal).find('img').attr('src')
         $(movedOriginal).find('input').css('color', '#272727').attr('readonly', 'readonly'); //makes forms un editable
         let amount =parseFloat($(movedOriginal).find('input[placeholder|=Quanity]').val())
         if(isNaN(amount)===true)//checks if amount is a NaN
@@ -422,26 +433,40 @@
         }).attr('onclick', 'deleteRow(this)');
         $('<a name="editBtn" onclick="edit(this)" id="addBtn" Class="btn btn-primary btn-primary"style=" border-radius: 10px;display: inline; background-color: #4f98ca; color: white; border: 1px solid #4f98ca;">Edit</a>')
             .insertAfter($(movedOriginal).find('b')); //inserts edit button in p tag
-        protien+=parseInt($(movedOriginal).find('a[name="protien"]').html())*amount;//gets marcos of food
+        protein+=parseInt($(movedOriginal).find('a[name="protein"]').html())*amount;//gets marcos of food
         fat+=parseInt($(movedOriginal).find('a[name="fat"]').html())*amount;
         carbs+=parseInt($(movedOriginal).find('a[name="carbs"]').html())*amount;
      
         updateChart()
         $(movedOriginal).appendTo($(elm)); //adds it to the DOM
-  /*axios.post('POST URL',{
-       headers{
-            'content-type':'application-json',
-        }
-        data{
-            'username':name,
-            'protien':protien,
+
+    fetch('/food', {  
+        method: 'POST',
+        headers: {
+    'Content-Type': 'application/json'}, 
+        body: JSON.stringify({
+            'name': name,
+            'image': image,
+            'serving': amount,
+            'protein':protein,
             'fat':fat,
-            'carbs':carbs
-            'calories':caloriesIA
-            }
-        })*/
-        
-    }
+            'carbs':carbs,
+            'calories':caloriesIA,
+            'section':currentSection
+            })
+    })
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(myJson) {
+        deleteBtns = document.getElementsByName('deleteBtn');
+        deleteBtns[deleteBtns.length - 1].setAttribute('id', myJson)
+
+        editBtns = document.getElementsByName('editBtn')
+        editBtns[editBtns.length - 1].setAttribute('id', myJson)
+    })
+    
+}
 
     function getFood() {
         let app_id = 'd6436c7d';
@@ -470,12 +495,12 @@
                         }
                      
                         document.getElementById('items').innerHTML+='<tr "><td><img style="width: 50%; height: 30%;" src='+
-                        image+'></td><td>100g</td><td>'+response.data.hints[i].food.label+'</td><td>Calories: <p name="calories">'
-                        +Math.round(response.data.hints[i].food.nutrients.ENERC_KCAL)+'</p></td><td style="text-align:left;"> Protien: <a name="protien">'
+                        image+'></td><td>100g</td><td> <p name= "foodname">'+response.data.hints[i].food.label+'</p></td><td>Calories: <p name="calories">'
+                        +Math.round(response.data.hints[i].food.nutrients.ENERC_KCAL)+'</p></td><td style="text-align:left;"> protein: <a name="protein">'
                         +Math.round(response.data.hints[i].food.nutrients.PROCNT)+'</a>g <br/>Fat: <a name="fat">'
                         +Math.round(response.data.hints[i].food.nutrients.FAT)+'</a>g <br/>Carbohydrates: <a name="carbs">'+
                         Math.round(response.data.hints[i].food.nutrients.CHOCDF)+'</a>g</td><td><form class="form-inline d-flex justify-content-center md-form form-sm mt-0">'
-                        +'<input  class="form-control form-control-sm ml-3 " type="number"placeholder="Quanity" aria-label="Search"style="background-color: transparent; color: white; width:30%; border-bottom:1px solid white; display: inline;"> &emsp14;<a name="firstBtn" onclick="addEx(this);closeNav();" class="btn btn-primary btn-primary"style=" border-radius: 10px;display: inline; background-color: #4f98ca; color: white; border: 1px solid #4f98ca;">Add</a><b></b></form></td></tr><hr class="featurette-divider">'
+                        +'<input  class="form-control form-control-sm ml-3 " type="number"placeholder="Quanity" aria-label="Search"style="background-color: transparent; color: white; width:30%; border-bottom:1px solid white; display: inline;"> &emsp14; <a name="firstBtn" onclick="addEx(this);closeNav();" class="btn btn-primary btn-primary"style=" border-radius: 10px;display: inline; background-color: #4f98ca; color: white; border: 1px solid #4f98ca;">Add</a><b></b></form></td></tr><hr class="featurette-divider">'
                     
                     }
                 
@@ -511,6 +536,56 @@
         document.getElementById("chart").style.width = "0%";
 
     }
+
+
+    fetch('/api/food')
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(myJson) {
+        console.log(myJson)
+        if (Object.keys(myJson).length != 0) {
+            for(i=0; i<Object.keys(myJson).length; i++) {
+                if(myJson[`Food ${i+1}`][8]=='B')
+                {
+                    var elm = '#addedBreakfast'
+                }
+                else if(myJson[`Food ${i+1}`][8]=='L')
+                {
+                    var elm = '#addedLunch'
+                }
+                else if(myJson[`Food ${i+1}`][8]=='D')
+                {
+                    var elm = '#addedDinner'
+                }
+                else if(myJson[`Food ${i+1}`][8]=='S')
+                {
+                    var elm = '#addedSnacks'
+                }
+                
+                    
+                image = myJson[`Food ${i+1}`][2]    
+                
+                
+                row = document.createElement('tr')   
+                row.innerHTML+='<tr "><td><img style="width: 50%; height: 30%;" src='+
+                image+'></td><td>100g</td><td> <p name= "foodname">'+myJson[`Food ${i+1}`][1]+'</p></td><td>Calories: <p name="calories">'
+                +Math.round(myJson[`Food ${i+1}`][4])+'</p></td><td style="text-align:left;"> protein: <a name="protein">'
+                +Math.round(myJson[`Food ${i+1}`][5])+'</a>g <br/>Fat: <a name="fat">'
+                +Math.round(myJson[`Food ${i+1}`][6])+'</a>g <br/>Carbohydrates: <a name="carbs">'+
+                Math.round(myJson[`Food ${i+1}`][7])+'</a>g</td><td><form class="form-inline d-flex justify-content-center md-form form-sm mt-0">'
+                +'<input  class="form-control form-control-sm ml-3 quantity" readonly=readonly type="number" placeholder="Quanity" aria-label="Search"style="background-color: transparent; color: black; width:30%; border-bottom:1px solid white; display: inline;"> &emsp14; <a name="editBtn" onclick="edit(this)" Class="btn btn-primary btn-primary"style=" border-radius: 10px;display: inline; background-color: #4f98ca; color: white; border: 1px solid #4f98ca;">Edit</a> &emsp14; <a name="deleteBtn" onclick="deleteRow(this)" class="btn btn-primary btn-primary"style=" border-radius: 10px;display: inline; background-color: #e74a3b; color: white; border: 1px solid #e74a3b;">Delete</a><b></b></form></td></tr><hr class="featurette-divider">'
+                
+                $(row).appendTo($(elm))
+                console.log(document.getElementsByName('deleteBtn'))
+
+                document.getElementsByClassName('quantity')[i].value = myJson[`Food ${i+1}`][3]
+                document.getElementsByName('editBtn')[i].setAttribute('id', myJson[`Food ${i+1}`][0])
+                document.getElementsByName('deleteBtn')[i].setAttribute('id', myJson[`Food ${i+1}`][0])
+                    
+            }
+        }
+    })
 
 </script>
 

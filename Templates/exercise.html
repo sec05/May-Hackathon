@@ -301,7 +301,8 @@
             time = min
         }
     
-        axios.post('/exercise',{
+        fetch('/exercise',{
+        methods: 'POST',
         headers: {
             'content-type':'application-json',
         },
@@ -311,6 +312,16 @@
             'numReps':iReps,
             'numSets':iSets,
             }
+        })
+        .then(function(response) {
+            return response.json()
+        })
+        .then(function(myJson) {
+            deleteBtns = document.getElementsByName('deleteBtn');
+            deleteBtns[deleteBtns.length - 1].setAttribute('id', myJson)
+
+            editBtns = document.getElementsByName('editBtn')
+            editBtns[editBtns.length - 1].setAttribute('id', myJson)
         })
 
         $(movedOriginal).find('a').html('Delete').css({ //changes css 
@@ -397,16 +408,35 @@
     
     fetch('/api/exercise')
     .then(function(response) {
-        response.json();
+        return response.json();
     })
     .then(function(myJson) {
+        console.log(myJson)
         if (Object.keys(myJson).length != 0) {
             for(i=0; i<Object.keys(myJson).length; i++) {
-            
-            }
+
+                row = document.createElement('tr')   
+                row.innerHTML+='<tr><td><td> <p name= "exercisename">'+myJson[`Exercise ${i+1}`][1]+'</p></td>'+ 
+                '<td><input  readonly=readonly class="form-control form-control-sm ml-3 hr" type="number" placeholder="hr" aria-label="Search"style="background-color: transparent; color: black; width:10%; border-bottom:1px solid white; display: inline;"><input  readonly=readonly class="form-control form-control-sm ml-3 min"type="number"placeholder="min" aria-label="Search"style="background-color: transparent; color: black; width:10%; border-bottom:1px solid white; display: inline;"><input  readonly=readonly class="form-control form-control-sm ml-3 sets"type="number"placeholder="Sets" aria-label="Search"style="background-color: transparent; color: black; width:20%; border-bottom:1px solid white; display: inline;"><input  readonly=readonly class="form-control form-control-sm ml-3 reps" type="number"placeholder="Reps" aria-label="Search"style="background-color: transparent; color: black; width:20%; border-bottom:1px solid white; display: inline;"> &emsp14;<a name="editBtn" onclick="edit(this)" id="addBtn" Class="btn btn-primary btn-primary"style=" border-radius: 10px;display: inline; background-color: #4f98ca; color: white; border: 1px solid #4f98ca;">Edit</a>&emsp14;<a name="deleteBtn" onclick="deleteRow(this)" class="btn btn-primary btn-primary"style=" border-radius: 10px;display: inline; background-color: #e74a3b; color: white; border: 1px solid #e74a3b;">Delete</a>&emsp14;<p style="display:inline;"></p></form></td></tr><br/></tr>'
+                
+                $(row).appendTo($(addedEx))    
+
+                remainder = myJson[`Exercise ${i+1}`][4] % 60
+                console.log((myJson[`Exercise ${i+1}`][4] - remainder) / 60)
+                console.log(remainder)
+                console.log(myJson[`Exercise ${i+1}`][2])
+                document.getElementsByClassName('hr')[i].value = (myJson[`Exercise ${i+1}`][4] - remainder) / 60
+                document.getElementsByClassName('min')[i].value = remainder
+                document.getElementsByClassName('sets')[i].value = myJson[`Exercise ${i+1}`][2]
+                document.getElementsByClassName('reps')[i].value = myJson[`Exercise ${i+1}`][3]
+
+            } 
+
         }
     })
 
+
+    
 
 </script>
 {%endblock content%}

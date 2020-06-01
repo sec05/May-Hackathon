@@ -61,12 +61,12 @@ def getFoods():
 
 
 def getExercises():
-    current_user = db.session.query(User).filter(User.username==session['username'])
-    exercises = db.session.query(Food).filter(Exercise.user_id==current_user.id).all()
+    current_user = db.session.query(User).filter(User.username==session['username']).first()
+    exercises = db.session.query(Exercise).filter(Exercise.user_id==current_user.id).all()
     exercise_info = {}
     for i in range(len(exercises)):
-        exercise_info['Exercise %s' %(i+1)] = [exercises[i].id, exercises[i].name.title(), exercises[i].sets, exercises[i].reps, exercises[i].time, exercises[i].date_created]
-    return exercise_info
+        exercise_info['Exercise %s' %(i+1)] = [exercises[i].id, exercises[i].name.title(), exercises[i].sets, exercises[i].reps, exercises[i].time]
+    return json.dumps(exercise_info)
 
 
 @app.before_request
